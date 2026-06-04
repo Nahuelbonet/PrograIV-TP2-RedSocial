@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { User } from '../../../core/models/user.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-perfil-header',
@@ -9,5 +10,5 @@ import { User } from '../../../core/models/user.model';
 })
 export class PerfilHeader {
   @Input() usuario!: User;
-  readonly API = 'http://localhost:3000';
+  readonly API = environment.apiUrl;
 }
