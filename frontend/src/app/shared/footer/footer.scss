@@ -1,0 +1,27 @@
+.footer {
+  background: #0f172a;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 18px 20px;
+  margin-top: auto;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.footer-brand {
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.footer-sep { color: #334155; }

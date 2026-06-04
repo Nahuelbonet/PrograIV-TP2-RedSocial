@@ -1,0 +1,26 @@
+<div class="header-card">
+  <div class="cover"></div>
+  <div class="profile-body">
+    <div class="avatar-wrap">
+      @if (usuario.fotoPerfil) {
+        <img [src]="API + usuario.fotoPerfil" [alt]="usuario.nombre" class="avatar-img" />
+      } @else {
+        <div class="avatar-placeholder">
+          {{ usuario.nombre.charAt(0).toUpperCase() }}{{ usuario.apellido.charAt(0).toUpperCase() }}
+        </div>
+      }
+    </div>
+    <div class="header-info">
+      <div class="name-row">
+        <h2>{{ usuario.nombre }} {{ usuario.apellido }}</h2>
+        <span class="badge" [class.admin]="usuario.perfil === 'administrador'">
+          {{ usuario.perfil === 'administrador' ? '⭐ Administrador' : 'Usuario' }}
+        </span>
+      </div>
+      <p class="username">&#64;{{ usuario.nombreUsuario }}</p>
+      @if (usuario.descripcion) {
+        <p class="descripcion">{{ usuario.descripcion }}</p>
+      }
+    </div>
+  </div>
+</div>

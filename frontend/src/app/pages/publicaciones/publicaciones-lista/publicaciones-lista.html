@@ -1,0 +1,10 @@
+@if (publicaciones.length === 0) {
+  <div class="empty">
+    <div class="empty-icon">📭</div>
+    <p>No hay publicaciones todavía.</p>
+  </div>
+} @else {
+  @for (pub of publicaciones; track pub.id) {
+    <app-publicacion-card [publicacion]="pub" />
+  }
+}

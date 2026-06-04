@@ -1,0 +1,29 @@
+.pub-wrapper {
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+
+  h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+
+  .post-count {
+    font-size: 13px;
+    color: var(--text-muted);
+    background: var(--surface);
+    padding: 4px 12px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-sm);
+    font-weight: 500;
+  }
+}

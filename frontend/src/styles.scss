@@ -1,0 +1,150 @@
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #e0e7ff;
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --bg: #f0f4ff;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --error: #ef4444;
+  --error-bg: #fef2f2;
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow: 0 4px 16px rgba(99, 102, 241, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 32px rgba(99, 102, 241, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 20px 60px rgba(99, 102, 241, 0.18), 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s;
+  &:hover { color: var(--primary-dark); text-decoration: underline; }
+}
+
+/* ─── Layout ─────────────────────────────────────── */
+.page-content {
+  flex: 1;
+  padding: 36px 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ─── Form Fields ─────────────────────────────────── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.01em;
+  }
+
+  input, select, textarea {
+    padding: 11px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text);
+    background: #fafbff;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    width: 100%;
+
+    &::placeholder { color: #94a3b8; }
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: var(--surface);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    &.ng-invalid.ng-touched {
+      border-color: var(--error);
+      &:focus { box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12); }
+    }
+  }
+
+  textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+
+  .error-msg {
+    font-size: 12px;
+    color: var(--error);
+    font-weight: 500;
+  }
+}
+
+/* ─── Buttons ─────────────────────────────────────── */
+.btn-primary {
+  width: 100%;
+  padding: 13px;
+  background: var(--primary-gradient);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+
+  &:hover:not(:disabled) {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+  }
+
+  &:active:not(:disabled) { transform: translateY(0); }
+  &:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+}
+
+/* ─── Error Banner ────────────────────────────────── */
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--error-bg);
+  color: var(--error);
+  border: 1px solid #fca5a5;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+
+/* ─── Scrollbar ───────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
