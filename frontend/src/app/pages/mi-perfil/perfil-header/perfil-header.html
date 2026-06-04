@@ -3,7 +3,7 @@
   <div class="profile-body">
     <div class="avatar-wrap">
       @if (usuario.fotoPerfil) {
-        <img [src]="API + usuario.fotoPerfil" [alt]="usuario.nombre" class="avatar-img" />
+        <img [src]="usuario.fotoPerfil" [alt]="usuario.nombre" class="avatar-img" />
       } @else {
         <div class="avatar-placeholder">
           {{ usuario.nombre.charAt(0).toUpperCase() }}{{ usuario.apellido.charAt(0).toUpperCase() }}
