@@ -1,0 +1,48 @@
+.perfil-wrapper {
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.no-session {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 64px 32px;
+  text-align: center;
+
+  .lock-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: var(--primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: var(--primary);
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .btn-inline {
+    display: inline-block;
+    width: auto;
+    padding: 12px 32px;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+  }
+
+}
+

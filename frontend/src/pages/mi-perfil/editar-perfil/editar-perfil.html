@@ -1,0 +1,67 @@
+<div class="modal-overlay" (click)="onCancelar()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Editar perfil</h3>
+      <button class="cerrar-btn" type="button" (click)="onCancelar()" aria-label="Cerrar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      @if (errorMsg) {
+        <div class="error-banner">{{ errorMsg }}</div>
+      }
+
+      <div class="field">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="text" formControlName="nombre" />
+        @if (nombre.invalid && nombre.touched) {
+          <span class="error-msg">Ingresá un nombre válido.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="apellido">Apellido</label>
+        <input id="apellido" type="text" formControlName="apellido" />
+        @if (apellido.invalid && apellido.touched) {
+          <span class="error-msg">Ingresá un apellido válido.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="fechaNacimiento">Fecha de nacimiento</label>
+        <input id="fechaNacimiento" type="date" formControlName="fechaNacimiento" />
+        @if (fechaNacimiento.invalid && fechaNacimiento.touched) {
+          <span class="error-msg">La fecha de nacimiento es obligatoria.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" formControlName="descripcion" placeholder="Contanos algo sobre vos…"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Foto de perfil</label>
+        <div class="file-row">
+          <label class="file-btn">
+            <input type="file" accept="image/*" (change)="onFileChange($event)" hidden />
+            Cambiar foto
+          </label>
+          @if (fotoNombre) {
+            <span class="file-name">{{ fotoNombre }}</span>
+          }
+        </div>
+      </div>
+
+      <div class="acciones">
+        <button type="button" class="btn-cancelar" (click)="onCancelar()" [disabled]="loading">
+          Cancelar
+        </button>
+        <button type="submit" class="btn-guardar" [disabled]="loading">
+          {{ loading ? 'Guardando…' : 'Guardar cambios' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

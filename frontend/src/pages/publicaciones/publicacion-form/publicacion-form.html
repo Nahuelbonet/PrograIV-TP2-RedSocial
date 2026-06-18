@@ -1,0 +1,74 @@
+<div class="crear-card">
+  @if (!abierto) {
+    <button class="abrir-btn" (click)="toggle()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Crear publicación
+    </button>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      @if (errorMsg) {
+        <div class="error-banner">{{ errorMsg }}</div>
+      }
+
+      <div class="field">
+        <div class="label-row">
+          <label for="titulo">Título</label>
+          <span class="contador" [class.limite]="(titulo.value?.length || 0) >= maxTitulo">
+            {{ titulo.value?.length || 0 }}/{{ maxTitulo }}
+          </span>
+        </div>
+        <input
+          id="titulo"
+          type="text"
+          formControlName="titulo"
+          [maxlength]="maxTitulo"
+          placeholder="¿De qué querés hablar?"
+        />
+        @if (titulo.invalid && titulo.touched) {
+          <span class="error-msg">El título es obligatorio.</span>
+        }
+      </div>
+
+      <div class="field">
+        <div class="label-row">
+          <label for="descripcion">Descripción</label>
+          <span class="contador" [class.limite]="(descripcion.value?.length || 0) >= maxDescripcion">
+            {{ descripcion.value?.length || 0 }}/{{ maxDescripcion }}
+          </span>
+        </div>
+        <textarea
+          id="descripcion"
+          formControlName="descripcion"
+          [maxlength]="maxDescripcion"
+          placeholder="Escribí tu publicación…"
+        ></textarea>
+        @if (descripcion.invalid && descripcion.touched) {
+          <span class="error-msg">La descripción es obligatoria.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label>Imagen (opcional)</label>
+        <div class="file-row">
+          <label class="file-btn">
+            <input type="file" accept="image/*" (change)="onFileChange($event)" hidden />
+            Elegir imagen
+          </label>
+          @if (imagenNombre) {
+            <span class="file-name">{{ imagenNombre }}</span>
+            <button type="button" class="file-remove" (click)="quitarImagen()">Quitar</button>
+          }
+        </div>
+      </div>
+
+      <div class="acciones">
+        <button type="button" class="btn-cancelar" (click)="toggle()" [disabled]="loading">
+          Cancelar
+        </button>
+        <button type="submit" class="btn-publicar" [disabled]="loading">
+          {{ loading ? 'Publicando…' : 'Publicar' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

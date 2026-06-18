@@ -7,24 +7,10 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
-import { Readable } from 'stream';
-import { v2 as cloudinary } from 'cloudinary';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-
-function uploadToCloudinary(buffer: Buffer): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const stream = cloudinary.uploader.upload_stream(
-      { folder: 'perfiles' },
-      (error, result) => {
-        if (error) return reject(error);
-        resolve(result!.secure_url);
-      },
-    );
-    Readable.from(buffer).pipe(stream);
-  });
-}
+import { subirImagen } from '../common/supabase-storage';
 
 @Controller('auth')
 export class AuthController {
@@ -45,7 +31,7 @@ export class AuthController {
   async register(@Body() registerDto: RegisterDto, @UploadedFile() file: Express.Multer.File) {
     let fotoPerfilUrl = '';
     if (file) {
-      fotoPerfilUrl = await uploadToCloudinary(file.buffer);
+      fotoPerfilUrl = await subirImagen(file, 'perfiles');
     }
     return this.authService.register(registerDto, fotoPerfilUrl);
   }
