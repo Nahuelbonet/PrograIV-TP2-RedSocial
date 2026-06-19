@@ -84,7 +84,10 @@ export class RegistroForm {
     if (this.fotoFile) formData.append('fotoPerfil', this.fotoFile);
 
     this.auth.register(formData).subscribe({
-      next: () => this.router.navigate(['/publicaciones']),
+      next: () => {
+        this.loading = false;
+        this.router.navigate(['/publicaciones']);
+      },
       error: (err) => {
         const msg = err.error?.message;
         this.errorMsg = Array.isArray(msg)
