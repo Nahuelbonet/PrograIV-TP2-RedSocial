@@ -1,6 +1,6 @@
 <div class="perfil-wrapper">
   @if (usuario) {
-    <app-perfil-header [usuario]="usuario" (editar)="abrirEdicion()" />
+    <app-perfil-header [usuario]="usuario" (editar)="abrirEdicion()" (bannerChange)="onBannerChange($event)" />
     <app-perfil-datos [usuario]="usuario" />
     <app-mis-publicaciones [usuario]="usuario" />
 

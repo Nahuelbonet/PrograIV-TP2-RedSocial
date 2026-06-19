@@ -34,4 +34,14 @@ export class MiPerfilPage implements OnInit {
   cerrarEdicion(): void {
     this.editando = false;
   }
+
+  onBannerChange(file: File): void {
+    if (!this.usuario) return;
+    const formData = new FormData();
+    formData.append('fotoBanner', file);
+    this.auth.actualizarPerfil(this.usuario._id, formData).subscribe({
+      next: (user) => { this.usuario = user; },
+      error: () => {},
+    });
+  }
 }

@@ -7,6 +7,7 @@ export interface User {
   fechaNacimiento: string;
   descripcion: string;
   fotoPerfil: string;
+  fotoBanner: string;
   perfil: 'usuario' | 'administrador';
   createdAt: string;
   updatedAt: string;

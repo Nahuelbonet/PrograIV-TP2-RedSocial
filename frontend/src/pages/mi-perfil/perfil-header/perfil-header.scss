@@ -36,6 +36,39 @@
 .cover {
   height: 100px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+
+  &:hover .cover-edit-btn {
+    opacity: 1;
+  }
+}
+
+.cover-edit-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s;
+  backdrop-filter: blur(4px);
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.75);
+  }
 }
 
 .profile-body {

@@ -27,7 +27,10 @@ export class User {
   descripcion: string;
 
   @Prop({ default: '' })
-  fotoPerfil: string; // URL de la imagen guardada
+  fotoPerfil: string;
+
+  @Prop({ default: '' })
+  fotoBanner: string;
 
   @Prop({ default: 'usuario', enum: ['usuario', 'administrador'] })
   perfil: string; // rol del usuario
