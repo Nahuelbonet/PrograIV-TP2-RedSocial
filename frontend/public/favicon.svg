@@ -1,4 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect width="32" height="32" rx="8" fill="#6366f1"/>
-  <path d="M8 10a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-4l-4 4v-4H10a2 2 0 0 1-2-2V10z" fill="white"/>
+  <!-- connection lines -->
+  <line x1="16" y1="10" x2="8" y2="22" stroke="white" stroke-width="1.5" stroke-opacity="0.7"/>
+  <line x1="16" y1="10" x2="24" y2="22" stroke="white" stroke-width="1.5" stroke-opacity="0.7"/>
+  <line x1="8" y1="22" x2="24" y2="22" stroke="white" stroke-width="1.5" stroke-opacity="0.7"/>
+  <!-- top person -->
+  <circle cx="16" cy="8" r="3" fill="white"/>
+  <!-- bottom-left person -->
+  <circle cx="7" cy="23" r="3" fill="white"/>
+  <!-- bottom-right person -->
+  <circle cx="25" cy="23" r="3" fill="white"/>
 </svg>
