@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://TU-BACKEND.onrender.com',
+  apiUrl: 'https://progra-iv-tp-2-red-social-backend.vercel.app',
 };
