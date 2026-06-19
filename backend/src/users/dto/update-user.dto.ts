@@ -18,4 +18,8 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString()
   fechaNacimiento?: string;
+
+  @IsOptional()
+  @IsString()
+  fotoBannerPos?: string;
 }

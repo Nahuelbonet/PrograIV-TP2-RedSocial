@@ -32,6 +32,9 @@ export class User {
   @Prop({ default: '' })
   fotoBanner: string;
 
+  @Prop({ default: '50% 50%' })
+  fotoBannerPos: string;
+
   @Prop({ default: 'usuario', enum: ['usuario', 'administrador'] })
   perfil: string; // rol del usuario
 }

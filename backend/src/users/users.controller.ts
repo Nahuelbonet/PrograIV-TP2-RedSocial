@@ -43,6 +43,7 @@ export class UsersController {
     if (dto.fechaNacimiento) data.fechaNacimiento = new Date(dto.fechaNacimiento);
     if (files?.fotoPerfil?.[0]) data.fotoPerfil = await subirImagen(files.fotoPerfil[0], 'perfiles');
     if (files?.fotoBanner?.[0]) data.fotoBanner = await subirImagen(files.fotoBanner[0], 'banners');
+    if (dto.fotoBannerPos !== undefined) data.fotoBannerPos = dto.fotoBannerPos;
 
     return this.usersService.update(id, data);
   }

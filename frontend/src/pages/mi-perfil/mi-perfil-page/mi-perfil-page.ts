@@ -44,4 +44,14 @@ export class MiPerfilPage implements OnInit {
       error: () => {},
     });
   }
+
+  onPosicionChange(pos: string): void {
+    if (!this.usuario) return;
+    const formData = new FormData();
+    formData.append('fotoBannerPos', pos);
+    this.auth.actualizarPerfil(this.usuario._id, formData).subscribe({
+      next: (user) => { this.usuario = user; },
+      error: () => {},
+    });
+  }
 }
