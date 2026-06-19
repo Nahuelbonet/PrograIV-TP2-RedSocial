@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Publicacion } from '../../../models/publicacion.model';
 
 @Component({
   selector: 'app-publicacion-card',
-  imports: [DatePipe],
+  imports: [DatePipe, RouterLink],
   templateUrl: './publicacion-card.html',
   styleUrl: './publicacion-card.scss',
 })

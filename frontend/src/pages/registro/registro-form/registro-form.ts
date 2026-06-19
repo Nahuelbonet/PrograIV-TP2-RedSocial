@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth';
+import { SesionService } from '../../../services/sesion.service';
 
 function passwordsCoinciden(group: AbstractControl): ValidationErrors | null {
   const pass = group.get('password')?.value;
@@ -25,6 +26,7 @@ function passwordsCoinciden(group: AbstractControl): ValidationErrors | null {
 export class RegistroForm {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
+  private sesion = inject(SesionService);
   private router = inject(Router);
 
   fotoFile: File | null = null;
@@ -86,6 +88,7 @@ export class RegistroForm {
     this.auth.register(formData).subscribe({
       next: () => {
         this.loading = false;
+        this.sesion.iniciarContador();
         this.router.navigate(['/publicaciones']);
       },
       error: (err) => {

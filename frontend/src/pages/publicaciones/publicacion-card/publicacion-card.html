@@ -21,7 +21,9 @@
     }
   </div>
 
-  <h3 class="titulo">{{ publicacion.titulo }}</h3>
+  <h3 class="titulo">
+    <a [routerLink]="['/publicaciones', publicacion._id]" class="titulo-link">{{ publicacion.titulo }}</a>
+  </h3>
   <p class="contenido">{{ publicacion.descripcion }}</p>
 
   @if (publicacion.imagen) {

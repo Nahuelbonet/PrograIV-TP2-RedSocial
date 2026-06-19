@@ -1,0 +1,101 @@
+<div class="detalle-wrapper">
+  <a routerLink="/publicaciones" class="back-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Volver
+  </a>
+
+  @if (loadingPub) {
+    <div class="spinner-wrap"><div class="spinner"></div></div>
+  } @else if (publicacion) {
+    <article class="pub-card">
+      <div class="pub-header">
+        @if (publicacion.usuario.fotoPerfil) {
+          <img [src]="publicacion.usuario.fotoPerfil" [alt]="publicacion.usuario.nombre" class="avatar-img" />
+        } @else {
+          <div class="avatar">{{ publicacion.usuario.nombre.charAt(0).toUpperCase() }}</div>
+        }
+        <div>
+          <p class="autor">{{ publicacion.usuario.nombre }} {{ publicacion.usuario.apellido }}</p>
+          <p class="fecha">{{ publicacion.createdAt | date: 'dd/MM/yyyy HH:mm' }}</p>
+        </div>
+      </div>
+      <h2 class="titulo">{{ publicacion.titulo }}</h2>
+      <p class="descripcion">{{ publicacion.descripcion }}</p>
+      @if (publicacion.imagen) {
+        <img [src]="publicacion.imagen" [alt]="publicacion.titulo" class="pub-img" />
+      }
+    </article>
+
+    <section class="comentarios-section">
+      <h3 class="section-title">Comentarios <span class="count">({{ totalComentarios }})</span></h3>
+
+      @if (usuarioActual) {
+        <div class="nuevo-comentario">
+          <textarea
+            [(ngModel)]="nuevoComentario"
+            placeholder="Escribí un comentario…"
+            rows="3"
+            class="textarea"
+          ></textarea>
+          <button
+            class="btn-enviar"
+            type="button"
+            [disabled]="enviando || !nuevoComentario.trim()"
+            (click)="enviarComentario()"
+          >
+            {{ enviando ? 'Enviando…' : 'Comentar' }}
+          </button>
+        </div>
+      }
+
+      @if (comentarios.length === 0 && !cargandoMas) {
+        <p class="sin-comentarios">Todavía no hay comentarios. ¡Sé el primero!</p>
+      }
+
+      <div class="lista-comentarios">
+        @for (comentario of comentarios; track comentario._id) {
+          <div class="comentario">
+            <div class="comentario-header">
+              @if (comentario.usuario.fotoPerfil) {
+                <img [src]="comentario.usuario.fotoPerfil" [alt]="comentario.usuario.nombre" class="com-avatar" />
+              } @else {
+                <div class="com-avatar-placeholder">{{ comentario.usuario.nombre.charAt(0).toUpperCase() }}</div>
+              }
+              <div class="comentario-meta">
+                <span class="com-autor">{{ comentario.usuario.nombre }} {{ comentario.usuario.apellido }}</span>
+                <span class="com-fecha">{{ comentario.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+                @if (comentario.modificado) {
+                  <span class="badge-editado">Editado</span>
+                }
+              </div>
+              @if (esMiComentario(comentario) && editandoId !== comentario._id) {
+                <button class="btn-editar" type="button" (click)="iniciarEdicion(comentario)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  Editar
+                </button>
+              }
+            </div>
+
+            @if (editandoId === comentario._id) {
+              <div class="edit-form">
+                <textarea [(ngModel)]="textoEditado" rows="2" class="textarea"></textarea>
+                <div class="edit-actions">
+                  <button class="btn-cancelar" type="button" (click)="cancelarEdicion()">Cancelar</button>
+                  <button class="btn-guardar" type="button" (click)="guardarEdicion(comentario)" [disabled]="!textoEditado.trim()">Guardar</button>
+                </div>
+              </div>
+            } @else {
+              <p class="com-texto">{{ comentario.texto }}</p>
+            }
+          </div>
+        }
+      </div>
+
+      @if (hayMas) {
+        <button class="btn-cargar-mas" type="button" [disabled]="cargandoMas" (click)="cargarMas()">
+          {{ cargandoMas ? 'Cargando…' : 'Cargar más comentarios' }}
+        </button>
+      }
+    </section>
+  }
+</div>

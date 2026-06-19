@@ -14,6 +14,7 @@ export interface Comentario {
   _id?: string;
   usuario: AutorResumen;
   texto: string;
+  modificado: boolean;
   createdAt?: string;
 }
 

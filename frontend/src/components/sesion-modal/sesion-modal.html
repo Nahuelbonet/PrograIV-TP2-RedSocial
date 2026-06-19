@@ -1,0 +1,11 @@
+<div class="modal-overlay">
+  <div class="modal">
+    <div class="modal-icon">⏰</div>
+    <h3>Tu sesión está por vencer</h3>
+    <p>Quedan <strong>5 minutos</strong> de sesión. ¿Querés extenderla?</p>
+    <div class="modal-actions">
+      <button class="btn-secundario" type="button" (click)="cerrar.emit()">No, gracias</button>
+      <button class="btn-primario" type="button" (click)="extender.emit()">Extender sesión</button>
+    </div>
+  </div>
+</div>

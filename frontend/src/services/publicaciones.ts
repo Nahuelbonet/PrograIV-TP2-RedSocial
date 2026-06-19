@@ -55,8 +55,34 @@ export class PublicacionesService {
   // DELETE /publicaciones/:id/like → quitar me gusta
   quitarLike(id: string, usuarioId: string): Observable<Publicacion> {
     const params = new HttpParams().set('usuarioId', usuarioId);
-    return this.http.delete<Publicacion>(`${API}/publicaciones/${id}/like`, {
-      params,
-    });
+    return this.http.delete<Publicacion>(`${API}/publicaciones/${id}/like`, { params });
+  }
+
+  // GET /publicaciones/:id → una publicación
+  obtener(id: string): Observable<Publicacion> {
+    return this.http.get<Publicacion>(`${API}/publicaciones/${id}`);
+  }
+
+  // GET /publicaciones/:id/comentarios?offset=&limit=
+  getComentarios(id: string, offset: number, limit: number) {
+    const params = new HttpParams()
+      .set('offset', String(offset))
+      .set('limit', String(limit));
+    return this.http.get<{ total: number; comentarios: import('../models/publicacion.model').Comentario[] }>(
+      `${API}/publicaciones/${id}/comentarios`, { params }
+    );
+  }
+
+  // POST /publicaciones/:id/comentario
+  agregarComentario(id: string, texto: string, usuarioId: string): Observable<Publicacion> {
+    return this.http.post<Publicacion>(`${API}/publicaciones/${id}/comentario`, { texto, usuarioId });
+  }
+
+  // PUT /publicaciones/:id/comentario/:comentarioId
+  editarComentario(pubId: string, comentarioId: string, texto: string, usuarioId: string): Observable<Publicacion> {
+    return this.http.put<Publicacion>(
+      `${API}/publicaciones/${pubId}/comentario/${comentarioId}`,
+      { texto, usuarioId }
+    );
   }
 }

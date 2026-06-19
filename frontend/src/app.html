@@ -3,3 +3,7 @@
   <router-outlet />
 </main>
 <app-footer />
+
+@if (mostrarModal$ | async) {
+  <app-sesion-modal (extender)="onExtender()" (cerrar)="onCerrarModal()" />
+}

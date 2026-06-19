@@ -8,6 +8,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types, isValidObjectId } from 'mongoose';
 import { Publicacion, PublicacionDocument } from './schemas/publicacion.schema';
 import { CreatePublicacionDto } from './dto/create-publicacion.dto';
+import { CreateComentarioDto } from './dto/create-comentario.dto';
+import { UpdateComentarioDto } from './dto/update-comentario.dto';
 import { UsersService } from '../users/users.service';
 
 // Campos del usuario que devolvemos al popular (nunca la contraseña)
@@ -141,6 +143,72 @@ export class PublicacionesService {
 
     // No matcheó: o no existe, o el usuario no había dado like
     return this.obtenerActivaOError(id);
+  }
+
+  // ── UNA PUBLICACIÓN ─────────────────────────────────
+  async findOne(id: string) {
+    if (!isValidObjectId(id)) throw new NotFoundException('Publicación no encontrada');
+    const pub = await this.pubModel
+      .findOne({ _id: id, eliminada: false })
+      .populate('usuario', USER_FIELDS)
+      .populate('comentarios.usuario', USER_FIELDS);
+    if (!pub) throw new NotFoundException('Publicación no encontrada');
+    return pub;
+  }
+
+  // ── COMENTARIOS (paginados, más recientes primero) ──
+  async getComentarios(id: string, offset: number, limit: number) {
+    if (!isValidObjectId(id)) throw new NotFoundException('Publicación no encontrada');
+    const pub = await this.pubModel
+      .findOne({ _id: id, eliminada: false })
+      .populate('comentarios.usuario', USER_FIELDS);
+    if (!pub) throw new NotFoundException('Publicación no encontrada');
+
+    const todos = [...pub.comentarios].reverse(); // más recientes primero
+    const total = todos.length;
+    const comentarios = todos.slice(offset, offset + limit);
+    return { total, comentarios };
+  }
+
+  // ── AGREGAR COMENTARIO ───────────────────────────────
+  async addComentario(id: string, dto: CreateComentarioDto) {
+    if (!isValidObjectId(id) || !isValidObjectId(dto.usuarioId)) {
+      throw new BadRequestException('IDs inválidos');
+    }
+    const pub = await this.pubModel
+      .findOneAndUpdate(
+        { _id: id, eliminada: false },
+        { $push: { comentarios: { usuario: new Types.ObjectId(dto.usuarioId), texto: dto.texto } } },
+        { new: true },
+      )
+      .populate('usuario', USER_FIELDS)
+      .populate('comentarios.usuario', USER_FIELDS);
+    if (!pub) throw new NotFoundException('Publicación no encontrada');
+    return pub;
+  }
+
+  // ── EDITAR COMENTARIO ────────────────────────────────
+  async updateComentario(pubId: string, comentarioId: string, dto: UpdateComentarioDto) {
+    if (!isValidObjectId(pubId) || !isValidObjectId(comentarioId)) {
+      throw new BadRequestException('IDs inválidos');
+    }
+    const pub = await this.pubModel.findOne({ _id: pubId, eliminada: false });
+    if (!pub) throw new NotFoundException('Publicación no encontrada');
+
+    const comentario = pub.comentarios.find(
+      (c: any) => c._id?.toString() === comentarioId,
+    );
+    if (!comentario) throw new NotFoundException('Comentario no encontrado');
+    if (comentario.usuario.toString() !== dto.usuarioId) {
+      throw new ForbiddenException('No podés editar este comentario');
+    }
+
+    await this.pubModel.updateOne(
+      { _id: pubId, 'comentarios._id': comentarioId },
+      { $set: { 'comentarios.$.texto': dto.texto, 'comentarios.$.modificado': true } },
+    );
+
+    return this.findOne(pubId);
   }
 
   // ── Helpers ─────────────────────────────────────────

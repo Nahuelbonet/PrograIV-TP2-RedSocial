@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
   UploadedFile,
   UseInterceptors,
@@ -13,6 +14,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { PublicacionesService } from './publicaciones.service';
 import { CreatePublicacionDto } from './dto/create-publicacion.dto';
+import { CreateComentarioDto } from './dto/create-comentario.dto';
+import { UpdateComentarioDto } from './dto/update-comentario.dto';
 import { LikeDto } from './dto/like.dto';
 import { subirImagen } from '../common/supabase-storage';
 
@@ -20,7 +23,7 @@ import { subirImagen } from '../common/supabase-storage';
 export class PublicacionesController {
   constructor(private publicacionesService: PublicacionesService) {}
 
-  // POST /publicaciones → alta (con imagen opcional, se guarda en Supabase Storage)
+  // POST /publicaciones → alta con imagen opcional
   @Post()
   @UseInterceptors(
     FileInterceptor('imagen', {
@@ -38,9 +41,7 @@ export class PublicacionesController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     let imagenUrl = '';
-    if (file) {
-      imagenUrl = await subirImagen(file, 'publicaciones');
-    }
+    if (file) imagenUrl = await subirImagen(file, 'publicaciones');
     return this.publicacionesService.create(dto, imagenUrl);
   }
 
@@ -60,24 +61,60 @@ export class PublicacionesController {
     });
   }
 
-  // DELETE /publicaciones/:id?usuarioId= → baja lógica (autor o admin)
+  // GET /publicaciones/:id → una publicación
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.publicacionesService.findOne(id);
+  }
+
+  // DELETE /publicaciones/:id → baja lógica
   @Delete(':id')
   async remove(@Param('id') id: string, @Query('usuarioId') usuarioId: string) {
     return this.publicacionesService.softDelete(id, usuarioId);
   }
 
-  // POST /publicaciones/:id/like → dar me gusta
+  // POST /publicaciones/:id/like
   @Post(':id/like')
   async like(@Param('id') id: string, @Body() dto: LikeDto) {
     return this.publicacionesService.like(id, dto.usuarioId);
   }
 
-  // DELETE /publicaciones/:id/like?usuarioId= → quitar me gusta
+  // DELETE /publicaciones/:id/like
   @Delete(':id/like')
-  async unlike(
-    @Param('id') id: string,
-    @Query('usuarioId') usuarioId: string,
-  ) {
+  async unlike(@Param('id') id: string, @Query('usuarioId') usuarioId: string) {
     return this.publicacionesService.unlike(id, usuarioId);
+  }
+
+  // GET /publicaciones/:id/comentarios?offset=&limit=  (más recientes primero)
+  @Get(':id/comentarios')
+  async getComentarios(
+    @Param('id') id: string,
+    @Query('offset') offset?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.publicacionesService.getComentarios(
+      id,
+      Number(offset) || 0,
+      Number(limit) || 5,
+    );
+  }
+
+  // POST /publicaciones/:id/comentario → agregar comentario
+  @Post(':id/comentario')
+  async addComentario(
+    @Param('id') id: string,
+    @Body() dto: CreateComentarioDto,
+  ) {
+    return this.publicacionesService.addComentario(id, dto);
+  }
+
+  // PUT /publicaciones/:id/comentario/:comentarioId → editar comentario
+  @Put(':id/comentario/:comentarioId')
+  async updateComentario(
+    @Param('id') id: string,
+    @Param('comentarioId') comentarioId: string,
+    @Body() dto: UpdateComentarioDto,
+  ) {
+    return this.publicacionesService.updateComentario(id, comentarioId, dto);
   }
 }

@@ -8,10 +8,13 @@ export type PublicacionDocument = Publicacion & Document;
 @Schema({ timestamps: true })
 export class Comentario {
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-  usuario: Types.ObjectId; // autor del comentario
+  usuario: Types.ObjectId;
 
   @Prop({ required: true })
   texto: string;
+
+  @Prop({ default: false })
+  modificado: boolean;
 }
 export const ComentarioSchema = SchemaFactory.createForClass(Comentario);
 
