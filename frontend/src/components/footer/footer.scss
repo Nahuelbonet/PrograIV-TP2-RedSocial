@@ -1,6 +1,8 @@
 .footer {
-  background: #0f172a;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(11, 16, 32, 0.6);
+  backdrop-filter: saturate(140%) blur(12px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+  border-top: 1px solid var(--glass-border);
   padding: 18px 20px;
   margin-top: auto;
 }
@@ -13,15 +15,15 @@
   justify-content: center;
   gap: 10px;
   font-size: 13px;
-  color: #475569;
+  color: var(--text-muted);
 }
 
 .footer-brand {
-  font-weight: 700;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  font-weight: 800;
+  background: linear-gradient(135deg, #c7d2fe, #e9d5ff, #fbcfe8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.footer-sep { color: #334155; }
+.footer-sep { color: var(--border); }

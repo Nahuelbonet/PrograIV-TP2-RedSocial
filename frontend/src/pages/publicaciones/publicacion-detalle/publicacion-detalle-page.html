@@ -36,15 +36,21 @@
             placeholder="Escribí un comentario…"
             rows="3"
             class="textarea"
+            [maxlength]="maxComentario"
           ></textarea>
-          <button
-            class="btn-enviar"
-            type="button"
-            [disabled]="enviando || !nuevoComentario.trim()"
-            (click)="enviarComentario()"
-          >
-            {{ enviando ? 'Enviando…' : 'Comentar' }}
-          </button>
+          <div class="comentario-footer">
+            <span class="contador" [class.limite]="nuevoComentario.length >= maxComentario">
+              {{ nuevoComentario.length }}/{{ maxComentario }}
+            </span>
+            <button
+              class="btn-enviar"
+              type="button"
+              [disabled]="enviando || !nuevoComentario.trim()"
+              (click)="enviarComentario()"
+            >
+              {{ enviando ? 'Enviando…' : 'Comentar' }}
+            </button>
+          </div>
         </div>
       }
 
@@ -78,8 +84,11 @@
 
             @if (editandoId === comentario._id) {
               <div class="edit-form">
-                <textarea [(ngModel)]="textoEditado" rows="2" class="textarea"></textarea>
+                <textarea [(ngModel)]="textoEditado" rows="2" class="textarea" [maxlength]="maxComentario"></textarea>
                 <div class="edit-actions">
+                  <span class="contador" [class.limite]="textoEditado.length >= maxComentario">
+                    {{ textoEditado.length }}/{{ maxComentario }}
+                  </span>
                   <button class="btn-cancelar" type="button" (click)="cancelarEdicion()">Cancelar</button>
                   <button class="btn-guardar" type="button" (click)="guardarEdicion(comentario)" [disabled]="!textoEditado.trim()">Guardar</button>
                 </div>

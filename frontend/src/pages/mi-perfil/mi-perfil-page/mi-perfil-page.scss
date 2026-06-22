@@ -6,6 +6,9 @@
 
 .no-session {
   background: var(--surface);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   padding: 64px 32px;

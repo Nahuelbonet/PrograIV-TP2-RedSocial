@@ -5,15 +5,18 @@ import {
   IsOptional,
   IsString,
   Matches,
+  MaxLength,
 } from 'class-validator';
 
 export class RegisterDto {
   @IsString()
   @IsNotEmpty({ message: 'El nombre es obligatorio' })
+  @MaxLength(20, { message: 'El nombre no puede superar los 20 caracteres' })
   nombre: string;
 
   @IsString()
   @IsNotEmpty({ message: 'El apellido es obligatorio' })
+  @MaxLength(20, { message: 'El apellido no puede superar los 20 caracteres' })
   apellido: string;
 
   @IsEmail({}, { message: 'El correo no es válido' })

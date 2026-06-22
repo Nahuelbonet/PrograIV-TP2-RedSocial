@@ -1,5 +1,8 @@
 .mis-pub-card {
   background: var(--surface);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
   padding: 24px;
@@ -54,7 +57,7 @@
 
 .mini-desc {
   font-size: 14px;
-  color: #334155;
+  color: var(--text-soft);
   line-height: 1.6;
   margin-bottom: 12px;
   white-space: pre-line;
@@ -99,7 +102,8 @@
 .comentario {
   font-size: 13px;
   line-height: 1.5;
-  background: var(--bg);
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 8px 12px;
 
@@ -110,8 +114,8 @@
   }
 
   .com-texto {
-    color: #334155;
+    color: var(--text-soft);
   }
-  
+
 }
 

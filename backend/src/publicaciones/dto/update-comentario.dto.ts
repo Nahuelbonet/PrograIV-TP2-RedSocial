@@ -1,8 +1,9 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class UpdateComentarioDto {
   @IsString()
   @IsNotEmpty({ message: 'El texto del comentario es obligatorio' })
+  @MaxLength(150, { message: 'El comentario no puede superar los 150 caracteres' })
   texto: string;
 
   @IsString()

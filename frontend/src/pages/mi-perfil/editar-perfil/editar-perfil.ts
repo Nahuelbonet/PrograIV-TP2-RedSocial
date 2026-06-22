@@ -32,8 +32,8 @@ export class EditarPerfil implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      nombre: [this.usuario.nombre, [Validators.required, Validators.minLength(2)]],
-      apellido: [this.usuario.apellido, [Validators.required, Validators.minLength(2)]],
+      nombre: [this.usuario.nombre, [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+      apellido: [this.usuario.apellido, [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       fechaNacimiento: [this.usuario.fechaNacimiento?.slice(0, 10) ?? '', Validators.required],
       descripcion: [this.usuario.descripcion ?? ''],
     });

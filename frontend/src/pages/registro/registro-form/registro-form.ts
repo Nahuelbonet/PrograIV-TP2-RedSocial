@@ -35,8 +35,8 @@ export class RegistroForm {
 
   form: FormGroup = this.fb.group(
     {
-      nombre: ['', [Validators.required, Validators.minLength(2)]],
-      apellido: ['', [Validators.required, Validators.minLength(2)]],
+      nombre: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+      apellido: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       correo: ['', [Validators.required, Validators.email]],
       nombreUsuario: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*\d).{8,}$/)]],

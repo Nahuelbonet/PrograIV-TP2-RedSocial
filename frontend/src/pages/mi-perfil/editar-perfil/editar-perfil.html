@@ -14,17 +14,23 @@
 
       <div class="field">
         <label for="nombre">Nombre</label>
-        <input id="nombre" type="text" formControlName="nombre" />
+        <input id="nombre" type="text" formControlName="nombre" maxlength="20" />
         @if (nombre.invalid && nombre.touched) {
-          <span class="error-msg">Ingresá un nombre válido.</span>
+          <span class="error-msg">
+            @if (nombre.errors?.['maxlength']) { Máximo 20 caracteres }
+            @else { Ingresá un nombre válido. }
+          </span>
         }
       </div>
 
       <div class="field">
         <label for="apellido">Apellido</label>
-        <input id="apellido" type="text" formControlName="apellido" />
+        <input id="apellido" type="text" formControlName="apellido" maxlength="20" />
         @if (apellido.invalid && apellido.touched) {
-          <span class="error-msg">Ingresá un apellido válido.</span>
+          <span class="error-msg">
+            @if (apellido.errors?.['maxlength']) { Máximo 20 caracteres }
+            @else { Ingresá un apellido válido. }
+          </span>
         }
       </div>
 

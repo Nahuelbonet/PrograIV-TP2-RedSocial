@@ -1,20 +1,24 @@
 .datos-card {
   background: var(--surface);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
 }
 
 .datos-header {
-  padding: 18px 24px;
+  padding: 16px 24px;
   border-bottom: 1px solid var(--border);
-  background: linear-gradient(to right, #fafbff, var(--surface));
+  background: rgba(0, 0, 0, 0.18);
 
   h3 {
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 700;
-    color: var(--text);
-    letter-spacing: -0.2px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
   }
 }
 
@@ -27,7 +31,7 @@
   transition: background 0.15s;
 
   &:last-child { border-bottom: none; }
-  &:hover { background: #fafbff; }
+  &:hover { background: var(--surface-hover); }
 }
 
 .dato-label {

@@ -1,10 +1,12 @@
 .crear-card {
   background: var(--surface);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 18px 20px;
   margin-bottom: 18px;
-  border: 1px solid rgba(99, 102, 241, 0.04);
+  border: 1px solid var(--glass-border);
 }
 
 .abrir-btn {
@@ -25,7 +27,7 @@
   transition: background 0.2s, transform 0.15s;
 
   &:hover {
-    background: #d4dcff;
+    background: rgba(129, 140, 248, 0.28);
     transform: translateY(-1px);
   }
 }

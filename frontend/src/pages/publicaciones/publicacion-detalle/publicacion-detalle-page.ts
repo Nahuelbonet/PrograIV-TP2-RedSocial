@@ -7,6 +7,7 @@ import { AuthService } from '../../../services/auth';
 import { Publicacion, Comentario } from '../../../models/publicacion.model';
 
 const LIMIT = 5;
+const MAX_COMENTARIO = 150;
 
 @Component({
   selector: 'app-publicacion-detalle-page',
@@ -29,6 +30,9 @@ export class PublicacionDetallePage implements OnInit {
 
   nuevoComentario = '';
   enviando = false;
+
+  // Límite de caracteres del comentario (igual que la descripción de la publicación)
+  readonly maxComentario = MAX_COMENTARIO;
 
   editandoId: string | null = null;
   textoEditado = '';

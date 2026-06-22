@@ -16,6 +16,9 @@
   display: flex;
   gap: 4px;
   background: var(--surface);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
   padding: 4px;
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-sm);
@@ -47,6 +50,9 @@
   padding: 64px 24px;
   color: var(--text-muted);
   background: var(--surface);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
 

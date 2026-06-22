@@ -3,20 +3,22 @@
   <div class="row-2">
     <div class="field">
       <label for="nombre">Nombre *</label>
-      <input id="nombre" type="text" formControlName="nombre" placeholder="Tu nombre" />
+      <input id="nombre" type="text" formControlName="nombre" placeholder="Tu nombre" maxlength="20" />
       @if (nombre.invalid && nombre.touched) {
         <span class="error-msg">
           @if (nombre.errors?.['required']) { El nombre es obligatorio }
+          @else if (nombre.errors?.['maxlength']) { Máximo 20 caracteres }
           @else { Mínimo 2 caracteres }
         </span>
       }
     </div>
     <div class="field">
       <label for="apellido">Apellido *</label>
-      <input id="apellido" type="text" formControlName="apellido" placeholder="Tu apellido" />
+      <input id="apellido" type="text" formControlName="apellido" placeholder="Tu apellido" maxlength="20" />
       @if (apellido.invalid && apellido.touched) {
         <span class="error-msg">
           @if (apellido.errors?.['required']) { El apellido es obligatorio }
+          @else if (apellido.errors?.['maxlength']) { Máximo 20 caracteres }
           @else { Mínimo 2 caracteres }
         </span>
       }
