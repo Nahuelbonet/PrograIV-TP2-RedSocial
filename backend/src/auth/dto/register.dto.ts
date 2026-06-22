@@ -12,11 +12,17 @@ export class RegisterDto {
   @IsString()
   @IsNotEmpty({ message: 'El nombre es obligatorio' })
   @MaxLength(20, { message: 'El nombre no puede superar los 20 caracteres' })
+  @Matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü ]+$/, {
+    message: 'El nombre solo puede contener letras',
+  })
   nombre: string;
 
   @IsString()
   @IsNotEmpty({ message: 'El apellido es obligatorio' })
   @MaxLength(20, { message: 'El apellido no puede superar los 20 caracteres' })
+  @Matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü ]+$/, {
+    message: 'El apellido solo puede contener letras',
+  })
   apellido: string;
 
   @IsEmail({}, { message: 'El correo no es válido' })
@@ -25,6 +31,7 @@ export class RegisterDto {
 
   @IsString()
   @IsNotEmpty({ message: 'El nombre de usuario es obligatorio' })
+  @MaxLength(20, { message: 'El nombre de usuario no puede superar los 20 caracteres' })
   nombreUsuario: string;
 
   // Al menos 8 caracteres, una mayúscula y un número

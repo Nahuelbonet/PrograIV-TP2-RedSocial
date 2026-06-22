@@ -21,13 +21,17 @@
     }
   </div>
 
-  <h3 class="titulo">
-    <a [routerLink]="['/publicaciones', publicacion._id]" class="titulo-link">{{ publicacion.titulo }}</a>
-  </h3>
+  <h3 class="titulo">{{ publicacion.titulo }}</h3>
   <p class="contenido">{{ publicacion.descripcion }}</p>
 
   @if (publicacion.imagen) {
-    <img [src]="publicacion.imagen" [alt]="publicacion.titulo" class="post-img" />
+    <img
+      [src]="publicacion.imagen"
+      [alt]="publicacion.titulo"
+      class="post-img"
+      title="Ampliar imagen"
+      (click)="abrirImagen()"
+    />
   }
 
   <div class="card-actions">
@@ -42,5 +46,29 @@
       {{ yaDioLike ? 'Te gusta' : 'Me gusta' }}
       <span class="like-count">{{ publicacion.likesCount }}</span>
     </button>
+
+    <a
+      class="action-btn comment-btn"
+      [routerLink]="['/publicaciones', publicacion._id]"
+      title="Ver comentarios"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Comentar
+      <span class="like-count">{{ cantidadComentarios }}</span>
+    </a>
   </div>
 </article>
+
+@if (imagenAmpliada) {
+  <div class="lightbox-overlay" (click)="cerrarImagen()">
+    <button class="lightbox-cerrar" type="button" (click)="cerrarImagen()" aria-label="Cerrar">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <img
+      [src]="publicacion.imagen"
+      [alt]="publicacion.titulo"
+      class="lightbox-img"
+      (click)="$event.stopPropagation()"
+    />
+  </div>
+}

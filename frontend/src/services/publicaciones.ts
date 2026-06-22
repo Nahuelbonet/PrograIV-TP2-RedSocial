@@ -85,4 +85,13 @@ export class PublicacionesService {
       { texto, usuarioId }
     );
   }
+
+  // DELETE /publicaciones/:id/comentario/:comentarioId → eliminar comentario propio
+  eliminarComentario(pubId: string, comentarioId: string, usuarioId: string): Observable<Publicacion> {
+    const params = new HttpParams().set('usuarioId', usuarioId);
+    return this.http.delete<Publicacion>(
+      `${API}/publicaciones/${pubId}/comentario/${comentarioId}`,
+      { params }
+    );
+  }
 }

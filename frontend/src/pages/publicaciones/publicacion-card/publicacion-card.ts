@@ -16,6 +16,9 @@ export class PublicacionCard {
   @Output() toggleLike = new EventEmitter<Publicacion>();
   @Output() eliminar = new EventEmitter<Publicacion>();
 
+  // Controla el visor ampliado de la imagen (lightbox)
+  imagenAmpliada = false;
+
   // ¿El usuario actual ya dio me gusta?
   get yaDioLike(): boolean {
     return (
@@ -46,6 +49,11 @@ export class PublicacionCard {
     return this.publicacion.usuario?.nombre?.charAt(0).toUpperCase() ?? '?';
   }
 
+  // Cantidad de comentarios (para mostrar al lado del botón Comentar)
+  get cantidadComentarios(): number {
+    return this.publicacion.comentarios?.length ?? 0;
+  }
+
   onToggleLike(): void {
     if (!this.hayUsuario) return;
     this.toggleLike.emit(this.publicacion);
@@ -53,5 +61,13 @@ export class PublicacionCard {
 
   onEliminar(): void {
     this.eliminar.emit(this.publicacion);
+  }
+
+  abrirImagen(): void {
+    if (this.publicacion.imagen) this.imagenAmpliada = true;
+  }
+
+  cerrarImagen(): void {
+    this.imagenAmpliada = false;
   }
 }

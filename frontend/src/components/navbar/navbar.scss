@@ -52,6 +52,36 @@
   -webkit-text-fill-color: transparent;
 }
 
+.token-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 5px 12px;
+  border-radius: 999px;
+  margin-right: 4px;
+
+  svg { flex-shrink: 0; }
+
+  // Cuando quedan menos de 5 minutos, resaltamos en rojo y parpadea suave
+  &.urgente {
+    color: #fca5a5;
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.3);
+    animation: token-pulse 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes token-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
 .nav-links {
   display: flex;
   align-items: center;

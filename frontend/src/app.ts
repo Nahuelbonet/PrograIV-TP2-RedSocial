@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { Navbar } from './components/navbar/navbar';
 import { Footer } from './components/footer/footer';
@@ -16,10 +16,17 @@ import { AuthService } from './services/auth';
 export class App implements OnInit {
   private sesion = inject(SesionService);
   private auth = inject(AuthService);
+  private router = inject(Router);
 
   mostrarModal$ = this.sesion.mostrarModal$;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Si se recarga la app con sesión activa (ej. F5 en una ruta interna),
+    // arrancamos el contador para que el tiempo restante quede siempre visible.
+    if (this.auth.estaLogueado()) {
+      this.sesion.iniciarContador();
+    }
+  }
 
   onExtender(): void {
     const token = this.auth.getToken();
@@ -37,7 +44,10 @@ export class App implements OnInit {
     });
   }
 
+  // El usuario eligió NO continuar: cerramos la sesión y lo mandamos al login
   onCerrarModal(): void {
-    this.sesion.cerrarModal();
+    this.auth.logout();
+    this.sesion.limpiar();
+    this.router.navigate(['/login']);
   }
 }

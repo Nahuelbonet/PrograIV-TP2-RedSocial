@@ -117,6 +117,20 @@ export class PublicacionDetallePage implements OnInit {
       });
   }
 
+  eliminarComentario(comentario: Comentario): void {
+    const usuario = this.usuarioActual;
+    if (!usuario || !this.publicacion || !comentario._id) return;
+    if (!confirm('¿Seguro que querés eliminar este comentario?')) return;
+    this.pubService
+      .eliminarComentario(this.publicacion._id, comentario._id, usuario._id)
+      .subscribe({
+        next: () => {
+          if (this.editandoId === comentario._id) this.cancelarEdicion();
+          this.cargarComentarios(this.publicacion!._id, true);
+        },
+      });
+  }
+
   esMiComentario(comentario: Comentario): boolean {
     return !!this.usuarioActual && comentario.usuario._id === this.usuarioActual._id;
   }

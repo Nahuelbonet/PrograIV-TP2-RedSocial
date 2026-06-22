@@ -117,4 +117,14 @@ export class PublicacionesController {
   ) {
     return this.publicacionesService.updateComentario(id, comentarioId, dto);
   }
+
+  // DELETE /publicaciones/:id/comentario/:comentarioId → eliminar comentario (solo el autor)
+  @Delete(':id/comentario/:comentarioId')
+  async deleteComentario(
+    @Param('id') id: string,
+    @Param('comentarioId') comentarioId: string,
+    @Query('usuarioId') usuarioId: string,
+  ) {
+    return this.publicacionesService.deleteComentario(id, comentarioId, usuarioId);
+  }
 }

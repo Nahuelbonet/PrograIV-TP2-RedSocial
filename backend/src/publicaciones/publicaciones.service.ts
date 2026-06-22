@@ -211,6 +211,35 @@ export class PublicacionesService {
     return this.findOne(pubId);
   }
 
+  // ── ELIMINAR COMENTARIO ──────────────────────────────
+  // Solo el autor del comentario puede borrarlo.
+  async deleteComentario(pubId: string, comentarioId: string, usuarioId: string) {
+    if (
+      !isValidObjectId(pubId) ||
+      !isValidObjectId(comentarioId) ||
+      !isValidObjectId(usuarioId)
+    ) {
+      throw new BadRequestException('IDs inválidos');
+    }
+    const pub = await this.pubModel.findOne({ _id: pubId, eliminada: false });
+    if (!pub) throw new NotFoundException('Publicación no encontrada');
+
+    const comentario = pub.comentarios.find(
+      (c: any) => c._id?.toString() === comentarioId,
+    );
+    if (!comentario) throw new NotFoundException('Comentario no encontrado');
+    if (comentario.usuario.toString() !== usuarioId) {
+      throw new ForbiddenException('No podés eliminar este comentario');
+    }
+
+    await this.pubModel.updateOne(
+      { _id: pubId },
+      { $pull: { comentarios: { _id: comentarioId } } },
+    );
+
+    return this.findOne(pubId);
+  }
+
   // ── Helpers ─────────────────────────────────────────
   private validarIds(id: string, usuarioId: string) {
     if (!isValidObjectId(id)) {
