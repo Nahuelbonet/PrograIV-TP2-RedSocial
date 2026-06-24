@@ -5,5 +5,15 @@
 <app-footer />
 
 @if (mostrarModal$ | async) {
-  <app-sesion-modal (extender)="onExtender()" (cerrar)="onCerrarModal()" />
+  <div class="modal-overlay">
+    <div class="modal">
+      <div class="modal-icon">⏰</div>
+      <h3>Tu sesión está por vencer</h3>
+      <p>Quedan <strong>5 minutos</strong> de sesión. ¿Querés extenderla?</p>
+      <div class="modal-actions">
+        <app-boton variante="modal-secundario" (clic)="onCerrarModal()">Cerrar sesión</app-boton>
+        <app-boton variante="modal-primario" (clic)="onExtender()">Extender sesión</app-boton>
+      </div>
+    </div>
+  </div>
 }

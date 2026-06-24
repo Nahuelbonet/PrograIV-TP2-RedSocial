@@ -1,15 +1,171 @@
 <div class="perfil-wrapper">
   @if (usuario) {
-    <app-perfil-header [usuario]="usuario" (editar)="abrirEdicion()" />
-    <app-perfil-datos [usuario]="usuario" />
-    <app-mis-publicaciones [usuario]="usuario" />
+    <!-- Encabezado del perfil -->
+    <div class="header-card">
+      <div class="profile-body">
+        <div class="avatar-wrap">
+          @if (usuario.fotoPerfil) {
+            <img [src]="usuario.fotoPerfil" [alt]="usuario.nombre" class="avatar-img" />
+          } @else {
+            <div class="avatar-placeholder">
+              {{ usuario.nombre.charAt(0).toUpperCase() }}{{ usuario.apellido.charAt(0).toUpperCase() }}
+            </div>
+          }
+        </div>
+        <app-boton variante="editar-flotante" (clic)="abrirEdicion()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Editar perfil
+        </app-boton>
+        <div class="header-info">
+          <div class="name-row">
+            <h2>{{ usuario.nombre }} {{ usuario.apellido }}</h2>
+            <span class="badge" [class.admin]="usuario.perfil === 'administrador'">
+              {{ usuario.perfil === 'administrador' ? '⭐ Administrador' : 'Usuario' }}
+            </span>
+          </div>
+          <p class="username">&#64;{{ usuario.nombreUsuario }}</p>
+          @if (usuario.descripcion) {
+            <p class="descripcion">{{ usuario.descripcion }}</p>
+          }
+        </div>
+      </div>
+    </div>
 
+    <!-- Información de cuenta -->
+    <div class="datos-card">
+      <div class="datos-header">
+        <h3>Información de cuenta</h3>
+      </div>
+
+      <div class="dato-item">
+        <span class="dato-label">
+          <span class="dato-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </span>
+          Correo
+        </span>
+        <span class="dato-value">{{ usuario.correo }}</span>
+      </div>
+
+      <div class="dato-item">
+        <span class="dato-label">
+          <span class="dato-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </span>
+          Fecha de nacimiento
+        </span>
+        <span class="dato-value">{{ formatFecha(usuario.fechaNacimiento) }}</span>
+      </div>
+
+      <div class="dato-item">
+        <span class="dato-label">
+          <span class="dato-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          </span>
+          Miembro desde
+        </span>
+        <span class="dato-value">{{ formatFecha(usuario.createdAt) }}</span>
+      </div>
+    </div>
+
+    <!-- Mis últimas publicaciones -->
+    <div class="mis-pub-card">
+      <div class="seccion-header">
+        <h3>Mis últimas publicaciones</h3>
+      </div>
+
+      @if (errorPublicaciones) {
+        <div class="error-banner">{{ errorPublicaciones }}</div>
+      }
+
+      @if (cargandoPublicaciones) {
+        <p class="estado">Cargando…</p>
+      } @else if (publicaciones.length === 0) {
+        <p class="estado">Todavía no realizaste ninguna publicación.</p>
+      } @else {
+        <div class="mini-lista">
+          @for (pub of publicaciones; track pub._id) {
+            <app-publicacion-card variante="mini" [publicacion]="pub" />
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Modal de edición de perfil -->
     @if (editando) {
-      <app-editar-perfil
-        [usuario]="usuario"
-        (guardado)="onGuardado($event)"
-        (cancelar)="cerrarEdicion()"
-      />
+      <div class="modal-overlay" (click)="cerrarEdicion()">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h3>Editar perfil</h3>
+            <app-boton variante="cerrar-icono" ariaLabel="Cerrar" (clic)="cerrarEdicion()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </app-boton>
+          </div>
+
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            @if (errorEdicion) {
+              <div class="error-banner">{{ errorEdicion }}</div>
+            }
+
+            <div class="field">
+              <label for="nombre">Nombre</label>
+              <input id="nombre" type="text" formControlName="nombre" maxlength="20" />
+              @if (nombre.invalid && nombre.touched) {
+                <span class="error-msg">
+                  @if (nombre.errors?.['maxlength']) { Máximo 20 caracteres }
+                  @else { Ingresá un nombre válido. }
+                </span>
+              }
+            </div>
+
+            <div class="field">
+              <label for="apellido">Apellido</label>
+              <input id="apellido" type="text" formControlName="apellido" maxlength="20" />
+              @if (apellido.invalid && apellido.touched) {
+                <span class="error-msg">
+                  @if (apellido.errors?.['maxlength']) { Máximo 20 caracteres }
+                  @else { Ingresá un apellido válido. }
+                </span>
+              }
+            </div>
+
+            <div class="field">
+              <label for="fechaNacimiento">Fecha de nacimiento</label>
+              <input id="fechaNacimiento" type="date" formControlName="fechaNacimiento" />
+              @if (fechaNacimiento.invalid && fechaNacimiento.touched) {
+                <span class="error-msg">La fecha de nacimiento es obligatoria.</span>
+              }
+            </div>
+
+            <div class="field">
+              <label for="descripcion">Descripción</label>
+              <textarea id="descripcion" formControlName="descripcion" placeholder="Contanos algo sobre vos…"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Foto de perfil</label>
+              <div class="file-row">
+                <label class="file-btn">
+                  <input type="file" accept="image/*" (change)="onFileChange($event)" hidden />
+                  Cambiar foto
+                </label>
+                @if (fotoNombre) {
+                  <span class="file-name">{{ fotoNombre }}</span>
+                }
+              </div>
+            </div>
+
+            <div class="acciones">
+              <app-boton variante="cancelar-perfil" (clic)="cerrarEdicion()" [deshabilitado]="guardando">
+                Cancelar
+              </app-boton>
+              <app-boton tipo="submit" variante="guardar-perfil" [deshabilitado]="guardando">
+                {{ guardando ? 'Guardando…' : 'Guardar cambios' }}
+              </app-boton>
+            </div>
+          </form>
+        </div>
+      </div>
     }
   } @else {
     <div class="no-session">

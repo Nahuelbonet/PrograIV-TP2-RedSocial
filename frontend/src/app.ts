@@ -3,13 +3,13 @@ import { Router, RouterOutlet } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { Navbar } from './components/navbar/navbar';
 import { Footer } from './components/footer/footer';
-import { SesionModal } from './components/sesion-modal/sesion-modal';
+import { Boton } from './components/boton/boton';
 import { SesionService } from './services/sesion.service';
 import { AuthService } from './services/auth';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Footer, SesionModal, AsyncPipe],
+  imports: [RouterOutlet, Navbar, Footer, Boton, AsyncPipe],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

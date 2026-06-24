@@ -58,3 +58,12 @@
     line-height: 1.5;
   }
 }
+
+.redirect-link {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 20px;
+
+  a { font-weight: 600; color: var(--primary); }
+}
