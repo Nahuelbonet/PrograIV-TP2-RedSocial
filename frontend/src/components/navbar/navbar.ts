@@ -22,7 +22,7 @@ export class Navbar {
     map((seg) => ({
       texto: this.formatear(seg),
       visible: seg > 0,
-      urgente: seg > 0 && seg <= 5 * 60, // menos de 5 min
+      urgente: seg > 0 && seg <= 30, // menos de 30 seg
     })),
   );
 

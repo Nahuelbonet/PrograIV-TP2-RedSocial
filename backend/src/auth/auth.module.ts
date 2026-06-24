@@ -11,7 +11,7 @@ import { UsersModule } from '../users/users.module';
     JwtModule.registerAsync({
       useFactory: () => ({
         secret: process.env.JWT_SECRET ?? 'jwt_secret_cambiar_en_produccion', // clave secreta para firmar/verificar
-        signOptions: { expiresIn: '15m' }, // el token vence a los 15 minutos
+        signOptions: { expiresIn: '1m' }, // el token vence al minuto
       }),
     }),
   ],
