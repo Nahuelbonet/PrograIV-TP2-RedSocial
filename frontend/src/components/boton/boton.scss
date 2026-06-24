@@ -1,0 +1,378 @@
+/* El host no genera caja propia: el <button> queda como hijo directo del
+   contenedor padre, de modo que gaps, flex, grid y posicionados siguen
+   funcionando igual que cuando el <button> estaba escrito a mano. */
+:host {
+  display: contents;
+}
+
+.boton {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   VARIANTES — cada una replica el estilo previo de cada botón.
+   ═══════════════════════════════════════════════════════════ */
+
+/* Botón primario a todo el ancho (login / registro) */
+.boton--primary {
+  width: 100%;
+  padding: 13px;
+  background: var(--primary-gradient);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s, filter 0.2s;
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.45);
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+    box-shadow: 0 10px 28px rgba(124, 58, 237, 0.6), var(--glow);
+  }
+
+  &:active:not(:disabled) { transform: translateY(0); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
+}
+
+/* Cerrar sesión (navbar) */
+.boton--logout {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 8px;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+
+  &:hover {
+    color: #f1f5f9;
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Modal de sesión — secundario (Cerrar sesión) */
+.boton--modal-secundario {
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+
+  &:hover { background: var(--surface-hover); color: var(--text); border-color: var(--text-muted); }
+}
+
+/* Modal de sesión — primario (Extender sesión) */
+.boton--modal-primario {
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--primary-gradient);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.45);
+  transition: filter 0.2s, transform 0.15s;
+
+  &:hover { filter: brightness(1.08); transform: translateY(-1px); }
+}
+
+/* Crear publicación — abrir formulario (botón con borde punteado) */
+.boton--abrir {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  border: 1.5px dashed var(--primary);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  transition: background 0.2s, transform 0.15s;
+
+  &:hover {
+    background: rgba(129, 140, 248, 0.28);
+    transform: translateY(-1px);
+  }
+}
+
+/* Quitar imagen elegida (enlace dentro del formulario de publicación) */
+.boton--file-remove {
+  background: none;
+  border: none;
+  color: var(--error);
+  font-size: 12px;
+  font-weight: 600;
+
+  &:hover { text-decoration: underline; }
+}
+
+/* Publicar (formulario de publicación) */
+.boton--publicar {
+  padding: 10px 24px;
+  background: var(--primary-gradient);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  transition: opacity 0.2s, transform 0.15s;
+
+  &:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); }
+  &:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+}
+
+/* Cancelar (formulario de publicación) */
+.boton--cancelar-publicar {
+  padding: 10px 20px;
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: border-color 0.2s, color 0.2s;
+
+  &:hover:not(:disabled) { border-color: var(--text-muted); color: var(--text); }
+  &:disabled { opacity: 0.55; cursor: not-allowed; }
+}
+
+/* Guardar cambios (modal editar perfil) */
+.boton--guardar-perfil {
+  padding: 11px 24px;
+  background: var(--primary-gradient);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  transition: opacity 0.2s, transform 0.15s;
+
+  &:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); }
+  &:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+}
+
+/* Cancelar (modal editar perfil) */
+.boton--cancelar-perfil {
+  padding: 11px 22px;
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: border-color 0.2s, color 0.2s;
+
+  &:hover:not(:disabled) { border-color: var(--text-muted); color: var(--text); }
+  &:disabled { opacity: 0.55; cursor: not-allowed; }
+}
+
+/* Cerrar (X) del modal editar perfil */
+.boton--cerrar-icono {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  padding: 4px;
+  border-radius: 8px;
+  display: flex;
+  transition: color 0.2s, background 0.2s;
+
+  &:hover { color: var(--text); background: var(--bg); }
+}
+
+/* Enviar comentario (detalle de publicación) */
+.boton--enviar {
+  align-self: flex-end;
+  padding: 9px 20px;
+  background: var(--primary-gradient);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.45);
+  transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+
+  &:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+  &:not(:disabled):hover { filter: brightness(1.08); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(124, 58, 237, 0.55); }
+}
+
+/* Editar comentario (acción dentro de un comentario) */
+.boton--editar-com {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover { background: var(--primary-light); color: var(--primary-dark); }
+}
+
+/* Eliminar comentario (acción dentro de un comentario) */
+.boton--eliminar-com {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover { background: var(--error-bg); color: var(--error); }
+}
+
+/* Cancelar edición de comentario */
+.boton--cancelar-com {
+  padding: 7px 14px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: border-color 0.2s, color 0.2s;
+
+  &:hover { border-color: var(--text-muted); color: var(--text); }
+}
+
+/* Guardar edición de comentario */
+.boton--guardar-com {
+  padding: 7px 14px;
+  background: var(--primary-gradient);
+  color: #fff;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+  transition: filter 0.2s, transform 0.15s;
+
+  &:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-1px); }
+  &:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+}
+
+/* Cargar más comentarios (detalle de publicación) */
+.boton--cargar-mas {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background: var(--surface-hover);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  transition: background 0.2s, border-color 0.2s;
+
+  &:hover:not(:disabled) { background: rgba(255, 255, 255, 0.12); border-color: rgba(139, 92, 246, 0.4); }
+  &:disabled { opacity: 0.55; cursor: not-allowed; }
+}
+
+/* Paginación (Anterior / Siguiente en la lista) */
+.boton--paginacion {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+
+  &:hover:not(:disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-1px);
+  }
+
+  &:disabled { opacity: 0.45; cursor: not-allowed; }
+}
+
+/* Eliminar publicación (ícono papelera, en la tarjeta) */
+.boton--eliminar-icono {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s, background 0.2s;
+
+  &:hover {
+    color: var(--error);
+    background: var(--error-bg);
+  }
+}
+
+/* Cerrar visor de imagen ampliada (lightbox) */
+.boton--lightbox-cerrar {
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+
+  &:hover { background: rgba(255, 255, 255, 0.28); }
+}
+
+/* Editar perfil (botón flotante sobre la portada) */
+.boton--editar-flotante {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(11, 16, 32, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s, transform 0.15s;
+
+  &:hover {
+    background: rgba(11, 16, 32, 0.75);
+    transform: translateY(-1px);
+  }
+}
+
+/* Editar perfil (botón flotante sobre la cabecera del perfil) — fin de variantes */

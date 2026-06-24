@@ -4,10 +4,11 @@ import { AsyncPipe } from '@angular/common';
 import { map } from 'rxjs';
 import { AuthService } from '../../services/auth';
 import { SesionService } from '../../services/sesion.service';
+import { Boton } from '../boton/boton';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, AsyncPipe],
+  imports: [RouterLink, RouterLinkActive, AsyncPipe, Boton],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })

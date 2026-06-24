@@ -1,0 +1,10 @@
+<button
+  [type]="tipo"
+  [class]="clases"
+  [disabled]="deshabilitado"
+  [attr.title]="titulo || null"
+  [attr.aria-label]="ariaLabel || null"
+  (click)="clic.emit($event)"
+>
+  <ng-content />
+</button>

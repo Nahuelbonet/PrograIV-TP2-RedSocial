@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PublicacionesLista } from '../publicaciones-lista/publicaciones-lista';
+import { PublicacionesLista } from '../../../components/publicaciones-lista/publicaciones-lista';
 
 @Component({
   selector: 'app-publicaciones-page',

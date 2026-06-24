@@ -2,10 +2,10 @@ import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth';
 import { User } from '../../../models/user.model';
-import { PerfilHeader } from '../perfil-header/perfil-header';
-import { PerfilDatos } from '../perfil-datos/perfil-datos';
-import { MisPublicaciones } from '../mis-publicaciones/mis-publicaciones';
-import { EditarPerfil } from '../editar-perfil/editar-perfil';
+import { PerfilHeader } from '../../../components/perfil-header/perfil-header';
+import { PerfilDatos } from '../../../components/perfil-datos/perfil-datos';
+import { MisPublicaciones } from '../../../components/mis-publicaciones/mis-publicaciones';
+import { EditarPerfil } from '../../../components/editar-perfil/editar-perfil';
 
 @Component({
   selector: 'app-mi-perfil-page',
@@ -33,25 +33,5 @@ export class MiPerfilPage implements OnInit {
 
   cerrarEdicion(): void {
     this.editando = false;
-  }
-
-  onBannerChange(file: File): void {
-    if (!this.usuario) return;
-    const formData = new FormData();
-    formData.append('fotoBanner', file);
-    this.auth.actualizarPerfil(this.usuario._id, formData).subscribe({
-      next: (user) => { this.usuario = user; },
-      error: () => {},
-    });
-  }
-
-  onPosicionChange(pos: string): void {
-    if (!this.usuario) return;
-    const formData = new FormData();
-    formData.append('fotoBannerPos', pos);
-    this.auth.actualizarPerfil(this.usuario._id, formData).subscribe({
-      next: (user) => { this.usuario = user; },
-      error: () => {},
-    });
   }
 }

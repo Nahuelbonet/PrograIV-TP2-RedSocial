@@ -7,24 +7,7 @@
   @if (loadingPub) {
     <div class="spinner-wrap"><div class="spinner"></div></div>
   } @else if (publicacion) {
-    <article class="pub-card">
-      <div class="pub-header">
-        @if (publicacion.usuario.fotoPerfil) {
-          <img [src]="publicacion.usuario.fotoPerfil" [alt]="publicacion.usuario.nombre" class="avatar-img" />
-        } @else {
-          <div class="avatar">{{ publicacion.usuario.nombre.charAt(0).toUpperCase() }}</div>
-        }
-        <div>
-          <p class="autor">{{ publicacion.usuario.nombre }} {{ publicacion.usuario.apellido }}</p>
-          <p class="fecha">{{ publicacion.createdAt | date: 'dd/MM/yyyy HH:mm' }}</p>
-        </div>
-      </div>
-      <h2 class="titulo">{{ publicacion.titulo }}</h2>
-      <p class="descripcion">{{ publicacion.descripcion }}</p>
-      @if (publicacion.imagen) {
-        <img [src]="publicacion.imagen" [alt]="publicacion.titulo" class="pub-img" />
-      }
-    </article>
+    <app-publicacion-card [publicacion]="publicacion" variante="detalle" />
 
     <section class="comentarios-section">
       <h3 class="section-title">Comentarios <span class="count">({{ totalComentarios }})</span></h3>
@@ -42,14 +25,13 @@
             <span class="contador" [class.limite]="nuevoComentario.length >= maxComentario">
               {{ nuevoComentario.length }}/{{ maxComentario }}
             </span>
-            <button
-              class="btn-enviar"
-              type="button"
-              [disabled]="enviando || !nuevoComentario.trim()"
-              (click)="enviarComentario()"
+            <app-boton
+              variante="enviar"
+              [deshabilitado]="enviando || !nuevoComentario.trim()"
+              (clic)="enviarComentario()"
             >
               {{ enviando ? 'Enviando…' : 'Comentar' }}
-            </button>
+            </app-boton>
           </div>
         </div>
       }
@@ -60,56 +42,24 @@
 
       <div class="lista-comentarios">
         @for (comentario of comentarios; track comentario._id) {
-          <div class="comentario">
-            <div class="comentario-header">
-              @if (comentario.usuario.fotoPerfil) {
-                <img [src]="comentario.usuario.fotoPerfil" [alt]="comentario.usuario.nombre" class="com-avatar" />
-              } @else {
-                <div class="com-avatar-placeholder">{{ comentario.usuario.nombre.charAt(0).toUpperCase() }}</div>
-              }
-              <div class="comentario-meta">
-                <span class="com-autor">{{ comentario.usuario.nombre }} {{ comentario.usuario.apellido }}</span>
-                <span class="com-fecha">{{ comentario.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
-                @if (comentario.modificado) {
-                  <span class="badge-editado">Editado</span>
-                }
-              </div>
-              @if (esMiComentario(comentario) && editandoId !== comentario._id) {
-                <div class="comentario-acciones">
-                  <button class="btn-editar" type="button" (click)="iniciarEdicion(comentario)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                    Editar
-                  </button>
-                  <button class="btn-eliminar" type="button" (click)="eliminarComentario(comentario)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    Eliminar
-                  </button>
-                </div>
-              }
-            </div>
-
-            @if (editandoId === comentario._id) {
-              <div class="edit-form">
-                <textarea [(ngModel)]="textoEditado" rows="2" class="textarea" [maxlength]="maxComentario"></textarea>
-                <div class="edit-actions">
-                  <span class="contador" [class.limite]="textoEditado.length >= maxComentario">
-                    {{ textoEditado.length }}/{{ maxComentario }}
-                  </span>
-                  <button class="btn-cancelar" type="button" (click)="cancelarEdicion()">Cancelar</button>
-                  <button class="btn-guardar" type="button" (click)="guardarEdicion(comentario)" [disabled]="!textoEditado.trim()">Guardar</button>
-                </div>
-              </div>
-            } @else {
-              <p class="com-texto">{{ comentario.texto }}</p>
-            }
-          </div>
+          <app-comentario
+            [comentario]="comentario"
+            [esMio]="esMiComentario(comentario)"
+            [editando]="editandoId === comentario._id"
+            [(textoEditado)]="textoEditado"
+            [maxComentario]="maxComentario"
+            (iniciarEdicion)="iniciarEdicion(comentario)"
+            (eliminar)="eliminarComentario(comentario)"
+            (guardar)="guardarEdicion(comentario)"
+            (cancelar)="cancelarEdicion()"
+          />
         }
       </div>
 
       @if (hayMas) {
-        <button class="btn-cargar-mas" type="button" [disabled]="cargandoMas" (click)="cargarMas()">
+        <app-boton variante="cargar-mas" [deshabilitado]="cargandoMas" (clic)="cargarMas()">
           {{ cargandoMas ? 'Cargando…' : 'Cargar más comentarios' }}
-        </button>
+        </app-boton>
       }
     </section>
   }

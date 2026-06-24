@@ -124,23 +124,4 @@
       box-shadow: 0 6px 18px rgba(124, 58, 237, 0.6), var(--glow);
     }
   }
-
-  .btn-logout {
-    background: transparent;
-    border: 1.5px solid rgba(255, 255, 255, 0.12);
-    color: #94a3b8;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: inherit;
-    padding: 7px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: color 0.2s, border-color 0.2s, background 0.2s;
-
-    &:hover {
-      color: #f1f5f9;
-      border-color: rgba(255, 255, 255, 0.25);
-      background: rgba(255, 255, 255, 0.05);
-    }
-  }
 }

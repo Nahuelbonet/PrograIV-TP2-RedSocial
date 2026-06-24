@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RegistroForm } from '../registro-form/registro-form';
+import { RegistroForm } from '../../../components/registro-form/registro-form';
 
 @Component({
   selector: 'app-registro-page',

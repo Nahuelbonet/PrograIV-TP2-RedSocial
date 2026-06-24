@@ -71,7 +71,7 @@ export class AuthService {
   async autorizar(token: string) {
     try {
       const payload = this.jwtService.verify(token); // chequea firma y que no esté vencido
-      const user = await this.usersService.findById(payload.sub);
+      const user = await this.usersService.findById(payload.sub); //busca user
       if (!user) throw new UnauthorizedException();
       const { password, ...usuario } = user.toObject();
       return usuario;
@@ -80,7 +80,7 @@ export class AuthService {
     }
   }
 
-  // Renueva el token: si el actual sigue válido, genera uno nuevo con más tiempo
+  // Renueva el token: si el actual sigue válido, genera uno nuevo con más tiempo //SIGN = Firmar
   async refrescar(token: string) {
     try {
       const payload = this.jwtService.verify(token);

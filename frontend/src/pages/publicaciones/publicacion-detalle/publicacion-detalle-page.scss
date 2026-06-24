@@ -17,56 +17,6 @@
   &:hover { color: var(--primary-dark); text-decoration: underline; }
 }
 
-.pub-card {
-  background: var(--surface);
-  -webkit-backdrop-filter: var(--blur);
-  backdrop-filter: var(--blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
-  padding: 24px;
-  box-shadow: var(--shadow);
-  margin-bottom: 28px;
-}
-
-.pub-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.avatar-img, .com-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--primary-gradient);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 16px;
-}
-
-.autor { font-weight: 700; font-size: 15px; color: var(--text); }
-.fecha { font-size: 12px; color: var(--text-muted); }
-.titulo { font-size: 22px; font-weight: 800; color: var(--text); margin-bottom: 12px; }
-.descripcion { font-size: 15px; color: var(--text-soft); line-height: 1.6; margin-bottom: 16px; overflow-wrap: anywhere; }
-
-.pub-img {
-  width: 100%;
-  border-radius: 12px;
-  object-fit: cover;
-  max-height: 480px;
-}
-
 .comentarios-section {
   background: var(--surface);
   -webkit-backdrop-filter: var(--blur);
@@ -114,22 +64,18 @@
   }
 }
 
-.btn-enviar {
-  align-self: flex-end;
-  padding: 9px 20px;
-  background: var(--primary-gradient);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.45);
-  transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+.comentario-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
 
-  &:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
-  &:not(:disabled):hover { filter: brightness(1.08); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(124, 58, 237, 0.55); }
+.contador {
+  font-size: 12px;
+  color: var(--text-muted);
+
+  &.limite { color: var(--error); font-weight: 600; }
 }
 
 .sin-comentarios {
@@ -143,184 +89,6 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-.comentario {
-  padding: 14px;
-  background: rgba(255, 255, 255, 0.035);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-}
-
-.comentario-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.com-avatar-placeholder {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--primary-gradient);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 14px;
-  flex-shrink: 0;
-}
-
-.com-avatar { width: 36px; height: 36px; flex-shrink: 0; }
-
-.comentario-meta {
-  flex: 1;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-}
-
-.com-autor { font-weight: 700; font-size: 13px; color: var(--text); }
-.com-fecha { font-size: 11px; color: var(--text-muted); }
-
-.badge-editado {
-  font-size: 10px;
-  font-weight: 600;
-  background: var(--primary-light);
-  color: var(--primary-dark);
-  padding: 2px 7px;
-  border-radius: 10px;
-}
-
-// Agrupa Editar + Eliminar y los empuja a la derecha del encabezado
-.comentario-acciones {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  margin-left: auto;
-}
-
-.btn-editar {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  border: none;
-  color: var(--primary);
-  font-size: 12px;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: background 0.2s, color 0.2s;
-
-  &:hover { background: var(--primary-light); color: var(--primary-dark); }
-}
-
-.btn-eliminar {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: background 0.2s, color 0.2s;
-
-  &:hover { background: var(--error-bg); color: var(--error); }
-}
-
-.com-texto {
-  font-size: 14px;
-  color: var(--text-soft);
-  line-height: 1.5;
-  // Corta palabras larguísimas sin espacios para que no se desborden del recuadro
-  overflow-wrap: anywhere;
-}
-
-.contador {
-  font-size: 12px;
-  color: var(--text-muted);
-
-  &.limite { color: var(--error); font-weight: 600; }
-}
-
-.comentario-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.edit-form { margin-top: 4px; }
-.edit-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 8px;
-
-  // El contador va a la izquierda; los botones quedan a la derecha
-  .contador { margin-right: auto; }
-}
-
-.btn-cancelar {
-  padding: 7px 14px;
-  border: 1.5px solid var(--border);
-  background: transparent;
-  color: var(--text-muted);
-  font-size: 13px;
-  font-weight: 600;
-  font-family: inherit;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
-
-  &:hover { border-color: var(--text-muted); color: var(--text); }
-}
-
-.btn-guardar {
-  padding: 7px 14px;
-  background: var(--primary-gradient);
-  color: #fff;
-  border: none;
-  font-size: 13px;
-  font-weight: 600;
-  font-family: inherit;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
-  transition: filter 0.2s, transform 0.15s;
-  &:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-1px); }
-  &:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
-}
-
-.btn-cargar-mas {
-  display: block;
-  width: 100%;
-  margin-top: 20px;
-  padding: 12px;
-  background: var(--surface-hover);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 600;
-  font-family: inherit;
-  color: var(--primary-dark);
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
-
-  &:hover:not(:disabled) { background: rgba(255, 255, 255, 0.12); border-color: rgba(139, 92, 246, 0.4); }
-  &:disabled { opacity: 0.55; cursor: not-allowed; }
 }
 
 .spinner-wrap {

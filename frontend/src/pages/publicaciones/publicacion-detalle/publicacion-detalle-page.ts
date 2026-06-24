@@ -1,17 +1,19 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PublicacionesService } from '../../../services/publicaciones';
 import { AuthService } from '../../../services/auth';
 import { Publicacion, Comentario } from '../../../models/publicacion.model';
+import { PublicacionCard } from '../../../components/publicacion-card/publicacion-card';
+import { Comentario as ComentarioComponent } from '../../../components/comentario/comentario';
+import { Boton } from '../../../components/boton/boton';
 
 const LIMIT = 5;
 const MAX_COMENTARIO = 150;
 
 @Component({
   selector: 'app-publicacion-detalle-page',
-  imports: [DatePipe, FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, PublicacionCard, ComentarioComponent, Boton],
   templateUrl: './publicacion-detalle-page.html',
   styleUrl: './publicacion-detalle-page.scss',
 })

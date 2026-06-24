@@ -1,0 +1,110 @@
+@if (variante === 'mini') {
+  <article class="mini-post">
+    <div class="mini-post-top">
+      <h4 class="mini-titulo">{{ publicacion.titulo }}</h4>
+      <span class="mini-fecha">{{ publicacion.createdAt | date: 'dd/MM/yyyy' }}</span>
+    </div>
+    <p class="mini-desc">{{ publicacion.descripcion }}</p>
+
+    @if (publicacion.imagen) {
+      <img [src]="publicacion.imagen" [alt]="publicacion.titulo" class="mini-img" />
+    }
+
+    <div class="mini-meta">
+      <span class="meta-item">❤ {{ publicacion.likesCount }} me gusta</span>
+      <span class="meta-item">💬 {{ publicacion.comentarios.length }} comentarios</span>
+    </div>
+
+    <!-- Comentarios de la publicación -->
+    <div class="comentarios">
+      @if (publicacion.comentarios.length === 0) {
+        <p class="sin-comentarios">Sin comentarios.</p>
+      } @else {
+        @for (c of publicacion.comentarios; track c._id) {
+          <app-comentario [comentario]="c" [compacto]="true" />
+        }
+      }
+    </div>
+  </article>
+} @else {
+  <article class="card" [class.card--detalle]="variante === 'detalle'">
+    <div class="card-header">
+      @if (publicacion.usuario.fotoPerfil) {
+        <img
+          [src]="publicacion.usuario.fotoPerfil"
+          [alt]="nombreAutor"
+          class="avatar-img"
+        />
+      } @else {
+        <div class="avatar">{{ inicialAutor }}</div>
+      }
+      <div class="author-info">
+        <p class="autor">{{ nombreAutor }}</p>
+        <p class="fecha">{{ publicacion.createdAt | date: 'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+
+      @if (variante === 'feed' && esPropia) {
+        <app-boton variante="eliminar-icono" titulo="Eliminar publicación" (clic)="onEliminar()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </app-boton>
+      }
+    </div>
+
+    <h3 class="titulo">{{ publicacion.titulo }}</h3>
+    <p class="contenido">{{ publicacion.descripcion }}</p>
+
+    @if (publicacion.imagen) {
+      @if (variante === 'feed') {
+        <img
+          [src]="publicacion.imagen"
+          [alt]="publicacion.titulo"
+          class="post-img"
+          title="Ampliar imagen"
+          (click)="abrirImagen()"
+        />
+      } @else {
+        <img [src]="publicacion.imagen" [alt]="publicacion.titulo" class="post-img" />
+      }
+    }
+
+    @if (variante === 'feed') {
+      <div class="card-actions">
+        <button
+          class="action-btn like-btn"
+          [class.liked]="yaDioLike"
+          [disabled]="!hayUsuario"
+          [title]="hayUsuario ? '' : 'Iniciá sesión para dar me gusta'"
+          (click)="onToggleLike()"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" [attr.fill]="yaDioLike ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          {{ yaDioLike ? 'Te gusta' : 'Me gusta' }}
+          <span class="like-count">{{ publicacion.likesCount }}</span>
+        </button>
+
+        <a
+          class="action-btn comment-btn"
+          [routerLink]="['/publicaciones', publicacion._id]"
+          title="Ver comentarios"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Comentar
+        <span class="like-count">{{ cantidadComentarios }}</span>
+      </a>
+    </div>
+    }
+  </article>
+
+  @if (imagenAmpliada) {
+    <div class="lightbox-overlay" (click)="cerrarImagen()">
+      <app-boton variante="lightbox-cerrar" ariaLabel="Cerrar" (clic)="cerrarImagen()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </app-boton>
+      <img
+        [src]="publicacion.imagen"
+        [alt]="publicacion.titulo"
+        class="lightbox-img"
+        (click)="$event.stopPropagation()"
+      />
+    </div>
+  }
+}
