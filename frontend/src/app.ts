@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
+import { map } from 'rxjs';
 import { Navbar } from './components/navbar/navbar';
 import { Footer } from './components/footer/footer';
 import { Boton } from './components/boton/boton';
@@ -20,7 +21,20 @@ export class App implements OnInit {
 
   mostrarModal$ = this.sesion.mostrarModal$;
 
+  // Cuenta regresiva en vivo para mostrar en el modal (mm:ss)
+  restante$ = this.sesion.restante$.pipe(map((seg) => this.formatear(seg)));
+
+  private formatear(seg: number): string {
+    const m = Math.floor(seg / 60);
+    const s = seg % 60;
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  }
+
   ngOnInit(): void {
+    // Si la sesión vence y el usuario no extendió a tiempo: cerramos sesión y vamos al login.
+    // (Nos suscribimos antes de arrancar el contador por si el token ya está vencido al recargar.)
+    this.sesion.expirado$.subscribe(() => this.onCerrarModal());
+
     // Si se recarga la app con sesión activa (ej. F5 en una ruta interna),
     // arrancamos el contador para que el tiempo restante quede siempre visible.
     if (this.auth.estaLogueado()) {

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { AuthService } from './auth';
 
 @Injectable({ providedIn: 'root' })
@@ -12,6 +12,10 @@ export class SesionService {
   // Segundos que le quedan de vida al token (para el contador visual)
   private _restante = new BehaviorSubject<number>(0);
   restante$ = this._restante.asObservable();
+
+  // Avisa que el token venció (el usuario no extendió a tiempo) -> hay que desloguear
+  private _expirado = new Subject<void>();
+  expirado$ = this._expirado.asObservable();
 
   private handle: ReturnType<typeof setInterval> | null = null;
 
@@ -34,8 +38,9 @@ export class SesionService {
     this._restante.next(restante);
 
     if (restante <= 0) {
-      // El token venció: frenamos el contador (el interceptor desloguea en el próximo pedido)
+      // El token venció: frenamos el contador y avisamos para cerrar la sesión
       this.detener();
+      this._expirado.next();
       return;
     }
     // Cuando quedan 5 minutos o menos, mostramos el aviso una sola vez

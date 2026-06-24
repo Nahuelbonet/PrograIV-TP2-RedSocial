@@ -42,6 +42,12 @@
   margin-bottom: 16px;
 }
 
+.modal-timer {
+  font-variant-numeric: tabular-nums; // evita que el ancho "salte" al cambiar los dígitos
+  color: var(--primary);
+  font-weight: 800;
+}
+
 .modal-actions {
   display: flex;
   gap: 12px;
