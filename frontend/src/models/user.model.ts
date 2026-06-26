@@ -10,6 +10,7 @@ export interface User {
   fotoBanner: string;
   fotoBannerPos: string;
   perfil: 'usuario' | 'administrador';
+  habilitado: boolean; // alta/baja lógica (false = no puede ingresar)
   createdAt: string;
   updatedAt: string;
 }

@@ -5,7 +5,7 @@
 
   <!-- Formulario de creación (solo con sesión iniciada) -->
   @if (usuarioActualId) {
-    <div class="crear-card">
+    <div class="crear-card" (appClickAfuera)="alClickAfuera()">
       @if (!abierto) {
         <app-boton variante="abrir" (clic)="toggle()">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -30,6 +30,7 @@
               formControlName="titulo"
               [maxlength]="maxTitulo"
               placeholder="¿De qué querés hablar?"
+              appAutofocus
             />
             @if (titulo.invalid && titulo.touched) {
               <span class="error-msg">El título es obligatorio.</span>
@@ -118,8 +119,10 @@
   } @else {
     @for (pub of publicaciones; track pub._id) {
       <app-publicacion-card
+        appResaltar
         [publicacion]="pub"
         [usuarioActualId]="usuarioActualId"
+        [esAdmin]="esAdmin"
         (toggleLike)="onToggleLike($event)"
         (eliminar)="onEliminar($event)"
       />

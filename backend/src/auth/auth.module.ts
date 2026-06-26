@@ -7,11 +7,13 @@ import { UsersModule } from '../users/users.module';
 @Module({
   imports: [
     UsersModule,
-    // Configura el manejo de tokens JWT
+    // Configura el manejo de tokens JWT (global: disponible en TODA la app,
+    // así no hace falta volver a registrarlo en otros módulos como Users).
     JwtModule.registerAsync({
+      global: true,
       useFactory: () => ({
         secret: process.env.JWT_SECRET ?? 'jwt_secret_cambiar_en_produccion', // clave secreta para firmar/verificar
-        signOptions: { expiresIn: '1m' }, // el token vence al minuto
+        signOptions: { expiresIn: '15m' }, // el token vence a los 15 minutos
       }),
     }),
   ],

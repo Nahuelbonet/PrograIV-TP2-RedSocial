@@ -19,8 +19,8 @@ export class SesionService {
 
   private handle: ReturnType<typeof setInterval> | null = null;
 
-  // Avisamos cuando faltan 30 segundos o menos para que venza el token
-  private readonly AVISO_SEG = 30;
+  // Avisamos cuando faltan 5 minutos o menos para que venza el token
+  private readonly AVISO_SEG = 300;
   // Para mostrar el modal de aviso una sola vez por sesión
   private avisoMostrado = false;
 

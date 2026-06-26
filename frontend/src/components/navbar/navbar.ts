@@ -17,6 +17,11 @@ export class Navbar {
   private sesion = inject(SesionService);
   private router = inject(Router);
 
+  // ¿El usuario logueado es administrador? (para mostrar el link del dashboard)
+  get esAdmin(): boolean {
+    return this.auth.getUsuario()?.perfil === 'administrador';
+  }
+
   // Contador visual: tiempo restante de la sesión (token), en mm:ss
   sesionInfo$ = this.sesion.restante$.pipe(
     map((seg) => ({

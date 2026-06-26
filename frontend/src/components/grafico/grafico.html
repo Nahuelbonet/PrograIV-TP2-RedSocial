@@ -1,0 +1,9 @@
+<div class="grafico-card">
+  <h3 class="grafico-titulo">{{ titulo }}</h3>
+  <div class="grafico-canvas-wrap">
+    @if (vacio) {
+      <p class="sin-datos">Sin datos en este período.</p>
+    }
+    <canvas #canvas></canvas>
+  </div>
+</div>

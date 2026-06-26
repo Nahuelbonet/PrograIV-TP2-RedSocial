@@ -4,15 +4,15 @@
       <h4 class="mini-titulo">{{ publicacion.titulo }}</h4>
       <span class="mini-fecha">{{ publicacion.createdAt | date: 'dd/MM/yyyy' }}</span>
     </div>
-    <p class="mini-desc">{{ publicacion.descripcion }}</p>
+    <p class="mini-desc">{{ publicacion.descripcion | truncar: 90 }}</p>
 
     @if (publicacion.imagen) {
       <img [src]="publicacion.imagen" [alt]="publicacion.titulo" class="mini-img" />
     }
 
     <div class="mini-meta">
-      <span class="meta-item">❤ {{ publicacion.likesCount }} me gusta</span>
-      <span class="meta-item">💬 {{ publicacion.comentarios.length }} comentarios</span>
+      <span class="meta-item">❤ {{ publicacion.likesCount | pluralizar: 'me gusta' : 'me gusta' }}</span>
+      <span class="meta-item">💬 {{ publicacion.comentarios.length | pluralizar: 'comentario' : 'comentarios' }}</span>
     </div>
 
     <!-- Comentarios de la publicación -->
@@ -43,8 +43,12 @@
         <p class="fecha">{{ publicacion.createdAt | date: 'dd/MM/yyyy HH:mm' }}</p>
       </div>
 
-      @if (variante === 'feed' && esPropia) {
-        <app-boton variante="eliminar-icono" titulo="Eliminar publicación" (clic)="onEliminar()">
+      @if (puedeEliminar) {
+        <app-boton
+          variante="eliminar-icono"
+          [titulo]="esPropia ? 'Eliminar publicación' : 'Eliminar publicación (admin)'"
+          (clic)="onEliminar()"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
         </app-boton>
       }

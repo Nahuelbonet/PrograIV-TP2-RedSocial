@@ -7,7 +7,13 @@
   @if (loadingPub) {
     <div class="spinner-wrap"><div class="spinner"></div></div>
   } @else if (publicacion) {
-    <app-publicacion-card [publicacion]="publicacion" variante="detalle" />
+    <app-publicacion-card
+      [publicacion]="publicacion"
+      variante="detalle"
+      [usuarioActualId]="usuarioActualId"
+      [esAdmin]="esAdmin"
+      (eliminar)="eliminarPublicacion($event)"
+    />
 
     <section class="comentarios-section">
       <h3 class="section-title">Comentarios <span class="count">({{ totalComentarios }})</span></h3>

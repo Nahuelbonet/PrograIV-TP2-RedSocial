@@ -1,0 +1,171 @@
+.dash-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  h2 {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ── Formulario de alta ── */
+.crear-card {
+  background: var(--surface);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow);
+}
+
+.row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Los dos radio buttons de perfil */
+.radios {
+  display: flex;
+  gap: 12px;
+
+  .radio-opcion {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+
+    &:has(input:checked) {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--text);
+    }
+
+    input { width: auto; accent-color: var(--primary); cursor: pointer; }
+  }
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* ── Tabla de usuarios ── */
+.tabla-scroll {
+  overflow-x: auto;
+  background: var(--surface);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.tabla-usuarios {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 720px;
+
+  th, td {
+    padding: 14px 16px;
+    text-align: left;
+  }
+
+  thead th {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+
+    &:last-child { border-bottom: none; }
+    &:hover { background: var(--surface-hover); }
+
+    &.deshabilitado { opacity: 0.55; }
+  }
+
+  .celda-usuario {
+    display: flex;
+    flex-direction: column;
+
+    .nombre { font-weight: 600; color: var(--text); }
+    .username { font-size: 12px; color: var(--text-muted); }
+  }
+}
+
+/* Badges de perfil y estado */
+.badge-perfil,
+.badge-estado {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.badge-perfil {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-soft);
+
+  &.admin {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+  }
+}
+
+.badge-estado {
+  background: var(--error-bg);
+  color: var(--error);
+
+  &.activo {
+    background: rgba(74, 222, 128, 0.14);
+    color: #4ade80;
+  }
+}
+
+.vos {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Estado vacío / cargando */
+.empty {
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--text-muted);
+}

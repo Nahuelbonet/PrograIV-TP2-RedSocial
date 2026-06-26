@@ -37,6 +37,9 @@ export class User {
 
   @Prop({ default: 'usuario', enum: ['usuario', 'administrador'] })
   perfil: string; // rol del usuario
+
+  @Prop({ default: true })
+  habilitado: boolean; // alta/baja lógica: si está en false no puede ingresar
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

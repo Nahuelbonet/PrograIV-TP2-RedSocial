@@ -4,16 +4,19 @@ import { RouterLink } from '@angular/router';
 import { Publicacion } from '../../models/publicacion.model';
 import { Boton } from '../boton/boton';
 import { Comentario as ComentarioComponent } from '../comentario/comentario';
+import { PluralizarPipe } from '../../pipes/pluralizar.pipe';
+import { TruncarPipe } from '../../pipes/truncar.pipe';
 
 @Component({
   selector: 'app-publicacion-card',
-  imports: [DatePipe, RouterLink, Boton, ComentarioComponent],
+  imports: [DatePipe, RouterLink, Boton, ComentarioComponent, PluralizarPipe, TruncarPipe],
   templateUrl: './publicacion-card.html',
   styleUrl: './publicacion-card.scss',
 })
 export class PublicacionCard {
   @Input() publicacion!: Publicacion;
   @Input() usuarioActualId = '';
+  @Input() esAdmin = false; // ¿el usuario logueado es administrador?
   // 'feed'    = tarjeta del listado (con acciones).
   // 'detalle' = vista ampliada sin acciones (página de detalle).
   // 'mini'    = vista compacta para "mis publicaciones" (con preview de comentarios).
@@ -39,6 +42,11 @@ export class PublicacionCard {
       !!this.usuarioActualId &&
       this.publicacion.usuario?._id === this.usuarioActualId
     );
+  }
+
+  // ¿Puede eliminar esta publicación? El autor (la suya) o un admin (cualquiera)
+  get puedeEliminar(): boolean {
+    return this.esPropia || this.esAdmin;
   }
 
   // Hay sesión iniciada (para habilitar el me gusta)

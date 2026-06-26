@@ -138,8 +138,13 @@
             </div>
 
             <div class="field">
-              <label for="descripcion">Descripción</label>
-              <textarea id="descripcion" formControlName="descripcion" placeholder="Contanos algo sobre vos…"></textarea>
+              <div class="label-row">
+                <label for="descripcion">Descripción</label>
+                <span class="contador" [class.limite]="(descripcion.value?.length || 0) >= maxDescripcion">
+                  {{ descripcion.value?.length || 0 }}/{{ maxDescripcion }}
+                </span>
+              </div>
+              <textarea id="descripcion" formControlName="descripcion" [maxlength]="maxDescripcion" placeholder="Contanos algo sobre vos…"></textarea>
             </div>
 
             <div class="field">

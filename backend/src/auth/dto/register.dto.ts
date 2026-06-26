@@ -47,6 +47,7 @@ export class RegisterDto {
 
   @IsOptional()
   @IsString()
+  @MaxLength(100, { message: 'La descripción no puede superar los 100 caracteres' })
   descripcion?: string;
 
   @IsOptional()

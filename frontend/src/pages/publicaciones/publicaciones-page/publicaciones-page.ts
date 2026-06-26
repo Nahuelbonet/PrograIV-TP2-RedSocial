@@ -9,6 +9,9 @@ import { PublicacionCard } from '../../../components/publicacion-card/publicacio
 import { Boton } from '../../../components/boton/boton';
 import { PublicacionesService } from '../../../services/publicaciones';
 import { AuthService } from '../../../services/auth';
+import { AutofocusDirective } from '../../../directives/autofocus.directive';
+import { ResaltarDirective } from '../../../directives/resaltar.directive';
+import { ClickAfueraDirective } from '../../../directives/click-afuera.directive';
 import {
   OrdenPublicaciones,
   Publicacion,
@@ -20,7 +23,14 @@ const MAX_DESCRIPCION = 150;
 
 @Component({
   selector: 'app-publicaciones-page',
-  imports: [PublicacionCard, Boton, ReactiveFormsModule],
+  imports: [
+    PublicacionCard,
+    Boton,
+    ReactiveFormsModule,
+    AutofocusDirective,
+    ResaltarDirective,
+    ClickAfueraDirective,
+  ],
   templateUrl: './publicaciones-page.html',
   styleUrl: './publicaciones-page.scss',
 })
@@ -39,6 +49,7 @@ export class PublicacionesPage implements OnInit {
   error = '';
 
   usuarioActualId = this.auth.getUsuario()?._id ?? '';
+  esAdmin = this.auth.getUsuario()?.perfil === 'administrador';
 
   // ── Formulario de creación ──
   readonly maxTitulo = MAX_TITULO;
@@ -153,6 +164,14 @@ export class PublicacionesPage implements OnInit {
   toggle(): void {
     this.abierto = !this.abierto;
     if (!this.abierto) this.resetear();
+  }
+
+  // Si el formulario está abierto y se hace clic afuera, lo cerramos
+  alClickAfuera(): void {
+    if (this.abierto) {
+      this.abierto = false;
+      this.resetear();
+    }
   }
 
   onFileChange(event: Event): void {

@@ -1,0 +1,53 @@
+<div class="dash-wrapper">
+  <div class="page-header">
+    <h2>Estadísticas</h2>
+  </div>
+
+  <!-- ── Selector de rango de fechas ── -->
+  <div class="filtro-card">
+    <div class="filtro-campo">
+      <label for="desde">Desde</label>
+      <input id="desde" type="date" [(ngModel)]="desde" [max]="hasta" />
+    </div>
+    <div class="filtro-campo">
+      <label for="hasta">Hasta</label>
+      <input id="hasta" type="date" [(ngModel)]="hasta" [min]="desde" />
+    </div>
+    <app-boton variante="publicar" (clic)="cargar()" [deshabilitado]="cargando || rangoInvalido">
+      {{ cargando ? 'Cargando…' : 'Aplicar' }}
+    </app-boton>
+  </div>
+
+  @if (rangoInvalido) {
+    <div class="error-banner">El "desde" no puede ser posterior al "hasta".</div>
+  }
+  @if (error) {
+    <div class="error-banner">{{ error }}</div>
+  }
+
+  <!-- ── Los 3 gráficos ── -->
+  <div class="graficos-grid">
+    <div class="grafico-ancho">
+      <app-grafico
+        tipo="bar"
+        titulo="Publicaciones por usuario"
+        etiquetaDataset="Publicaciones"
+        [datos]="publicacionesPorUsuario"
+      />
+    </div>
+
+    <app-grafico
+      tipo="line"
+      titulo="Comentarios por día"
+      etiquetaDataset="Comentarios"
+      [datos]="comentariosPorDia"
+    />
+
+    <app-grafico
+      tipo="pie"
+      titulo="Comentarios por publicación"
+      etiquetaDataset="Comentarios"
+      [datos]="comentariosPorPublicacion"
+    />
+  </div>
+</div>

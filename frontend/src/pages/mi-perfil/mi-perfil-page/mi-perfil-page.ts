@@ -38,6 +38,7 @@ export class MiPerfilPage implements OnInit {
   fotoNombre = '';
   guardando = false;
   errorEdicion = '';
+  readonly maxDescripcion = 100; // límite de caracteres de la descripción
 
   ngOnInit(): void {
     this.usuario = this.auth.getUsuario();
@@ -75,7 +76,7 @@ export class MiPerfilPage implements OnInit {
       nombre: [this.usuario.nombre, [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü ]+$/)]],
       apellido: [this.usuario.apellido, [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü ]+$/)]],
       fechaNacimiento: [this.usuario.fechaNacimiento?.slice(0, 10) ?? '', Validators.required],
-      descripcion: [this.usuario.descripcion ?? ''],
+      descripcion: [this.usuario.descripcion ?? '', Validators.maxLength(this.maxDescripcion)],
     });
     this.fotoFile = null;
     this.fotoNombre = '';
@@ -86,6 +87,7 @@ export class MiPerfilPage implements OnInit {
   get nombre() { return this.form.get('nombre')!; }
   get apellido() { return this.form.get('apellido')!; }
   get fechaNacimiento() { return this.form.get('fechaNacimiento')!; }
+  get descripcion() { return this.form.get('descripcion')!; }
 
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;

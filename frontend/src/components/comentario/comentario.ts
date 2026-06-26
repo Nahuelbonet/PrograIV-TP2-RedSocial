@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Boton } from '../boton/boton';
+import { TiempoTranscurridoPipe } from '../../pipes/tiempo-transcurrido.pipe';
 import { Comentario as ComentarioModel } from '../../models/publicacion.model';
 
 /**
@@ -15,7 +15,7 @@ import { Comentario as ComentarioModel } from '../../models/publicacion.model';
  */
 @Component({
   selector: 'app-comentario',
-  imports: [DatePipe, FormsModule, Boton],
+  imports: [FormsModule, Boton, TiempoTranscurridoPipe],
   templateUrl: './comentario.html',
   styleUrl: './comentario.scss',
   host: { '[class.compacto]': 'compacto' },

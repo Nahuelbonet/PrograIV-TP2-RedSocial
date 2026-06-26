@@ -1,0 +1,178 @@
+<div class="dash-wrapper">
+  <div class="page-header">
+    <h2>Gestión de usuarios</h2>
+    <app-boton variante="abrir" (clic)="toggle()">
+      {{ abierto ? 'Cerrar formulario' : '+ Nuevo usuario' }}
+    </app-boton>
+  </div>
+
+  <!-- ── Formulario de alta ── -->
+  @if (abierto) {
+    <div class="crear-card">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        @if (errorMsg) {
+          <div class="error-banner">{{ errorMsg }}</div>
+        }
+
+        <div class="row-2">
+          <div class="field">
+            <label for="nombre">Nombre *</label>
+            <input id="nombre" type="text" formControlName="nombre" maxlength="20" />
+            @if (nombre.invalid && nombre.touched) {
+              <span class="error-msg">Nombre inválido (solo letras, 2 a 20).</span>
+            }
+          </div>
+          <div class="field">
+            <label for="apellido">Apellido *</label>
+            <input id="apellido" type="text" formControlName="apellido" maxlength="20" />
+            @if (apellido.invalid && apellido.touched) {
+              <span class="error-msg">Apellido inválido (solo letras, 2 a 20).</span>
+            }
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="correo">Correo electrónico *</label>
+          <input id="correo" type="email" formControlName="correo" placeholder="tu@correo.com" />
+          @if (correo.invalid && correo.touched) {
+            <span class="error-msg">El correo no es válido.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="nombreUsuario">Nombre de usuario *</label>
+          <input id="nombreUsuario" type="text" formControlName="nombreUsuario" maxlength="20" />
+          @if (nombreUsuario.invalid && nombreUsuario.touched) {
+            <span class="error-msg">Mínimo 3 caracteres.</span>
+          }
+        </div>
+
+        <div class="row-2">
+          <div class="field">
+            <label for="password">Contraseña *</label>
+            <input id="password" type="password" formControlName="password" placeholder="Mínimo 8 caracteres" />
+            @if (password.invalid && password.touched) {
+              <span class="error-msg">8+ caracteres, una mayúscula y un número.</span>
+            }
+          </div>
+          <div class="field">
+            <label for="repetirPassword">Repetir contraseña *</label>
+            <input id="repetirPassword" type="password" formControlName="repetirPassword" />
+            @if (repetirPassword.touched) {
+              @if (repetirPassword.errors?.['required']) {
+                <span class="error-msg">Obligatoria.</span>
+              } @else if (form.errors?.['noCoinciden']) {
+                <span class="error-msg">Las contraseñas no coinciden.</span>
+              }
+            }
+          </div>
+        </div>
+
+        <div class="row-2">
+          <div class="field">
+            <label for="fechaNacimiento">Fecha de nacimiento *</label>
+            <input id="fechaNacimiento" type="date" formControlName="fechaNacimiento" />
+            @if (fechaNacimiento.invalid && fechaNacimiento.touched) {
+              <span class="error-msg">La fecha es obligatoria.</span>
+            }
+          </div>
+          <div class="field">
+            <label>Foto de perfil (opcional)</label>
+            <input type="file" accept="image/*" (change)="onFileChange($event)" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="descripcion">Descripción breve</label>
+          <textarea id="descripcion" formControlName="descripcion" rows="2" maxlength="100"></textarea>
+        </div>
+
+        <!-- ── Los dos radio buttons de perfil ── -->
+        <div class="field">
+          <label>Perfil *</label>
+          <div class="radios">
+            <label class="radio-opcion">
+              <input type="radio" formControlName="perfil" value="usuario" />
+              Usuario
+            </label>
+            <label class="radio-opcion">
+              <input type="radio" formControlName="perfil" value="administrador" />
+              Administrador
+            </label>
+          </div>
+        </div>
+
+        <div class="acciones">
+          <app-boton variante="cancelar-publicar" (clic)="toggle()" [deshabilitado]="guardando">
+            Cancelar
+          </app-boton>
+          <app-boton tipo="submit" variante="publicar" [deshabilitado]="guardando">
+            {{ guardando ? 'Creando…' : 'Crear usuario' }}
+          </app-boton>
+        </div>
+      </form>
+    </div>
+  }
+
+  <!-- ── Listado de usuarios ── -->
+  @if (error) {
+    <div class="error-banner">{{ error }}</div>
+  }
+
+  @if (loading) {
+    <div class="empty"><p>Cargando usuarios…</p></div>
+  } @else if (usuarios.length === 0) {
+    <div class="empty"><p>No hay usuarios.</p></div>
+  } @else {
+    <div class="tabla-scroll">
+      <table class="tabla-usuarios">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Correo</th>
+            <th>Perfil</th>
+            <th>Estado</th>
+            <th>Registrado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of usuarios; track u._id) {
+            <tr [class.deshabilitado]="!u.habilitado">
+              <td>
+                <div class="celda-usuario">
+                  <span class="nombre">{{ u.nombre }} {{ u.apellido }}</span>
+                  <span class="username">{{ '@' + u.nombreUsuario }}</span>
+                </div>
+              </td>
+              <td>{{ u.correo }}</td>
+              <td>
+                <span class="badge-perfil" [class.admin]="u.perfil === 'administrador'">
+                  {{ u.perfil }}
+                </span>
+              </td>
+              <td>
+                <span class="badge-estado" [class.activo]="u.habilitado">
+                  {{ u.habilitado ? 'Habilitado' : 'Deshabilitado' }}
+                </span>
+              </td>
+              <td>{{ u.createdAt | date: 'dd/MM/yyyy' }}</td>
+              <td>
+                @if (u._id === usuarioActualId) {
+                  <span class="vos">Vos</span>
+                } @else {
+                  <app-boton
+                    [variante]="u.habilitado ? 'eliminar-com' : 'guardar-com'"
+                    (clic)="cambiarEstado(u)"
+                  >
+                    {{ u.habilitado ? 'Deshabilitar' : 'Habilitar' }}
+                  </app-boton>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -82,6 +82,25 @@
   font-size: 14px;
   color: var(--text-soft);
   line-height: 1.5;
+  // Corta palabras larguísimas para que el texto no se salga del recuadro
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+// Fila "label + contador de caracteres" del formulario de edición
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .contador {
+    font-size: 12px;
+    color: var(--text-muted);
+
+    &.limite {
+      color: var(--error);
+    }
+  }
 }
 
 .badge {

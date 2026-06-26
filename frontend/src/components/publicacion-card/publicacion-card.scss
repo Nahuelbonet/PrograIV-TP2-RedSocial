@@ -1,3 +1,9 @@
+/* El host en bloque para que el resaltado (directiva appResaltar) abrace la tarjeta */
+:host {
+  display: block;
+  border-radius: var(--radius);
+}
+
 .card {
   background: var(--surface);
   -webkit-backdrop-filter: var(--blur);

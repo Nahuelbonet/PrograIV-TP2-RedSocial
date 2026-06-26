@@ -62,6 +62,13 @@ export class AuthService {
     const passwordMatch = await bcrypt.compare(loginDto.password, user.password);
     if (!passwordMatch) throw new UnauthorizedException('Usuario o contraseña incorrectos');
 
+    // Si el admin lo deshabilitó, no puede ingresar y se lo notifica
+    if (!user.habilitado) {
+      throw new UnauthorizedException(
+        'Tu cuenta está deshabilitada. Contactá a un administrador.',
+      );
+    }
+
     // Si todo OK, devuelve el usuario + un token nuevo
     const { password, ...usuario } = user.toObject();
     return { usuario, token: this.crearToken(usuario) };
@@ -72,7 +79,8 @@ export class AuthService {
     try {
       const payload = this.jwtService.verify(token); // chequea firma y que no esté vencido
       const user = await this.usersService.findById(payload.sub); //busca user
-      if (!user) throw new UnauthorizedException();
+      // Si no existe o fue deshabilitado, la sesión deja de ser válida
+      if (!user || !user.habilitado) throw new UnauthorizedException();
       const { password, ...usuario } = user.toObject();
       return usuario;
     } catch {

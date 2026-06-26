@@ -1,0 +1,33 @@
+.grafico-card {
+  background: var(--surface);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.grafico-titulo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+/* Contenedor con alto fijo: Chart.js se adapta a este tamaño
+   (porque usamos maintainAspectRatio: false) */
+.grafico-canvas-wrap {
+  position: relative;
+  height: 280px;
+}
+
+.sin-datos {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}

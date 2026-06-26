@@ -13,7 +13,7 @@
       }
       <div class="comentario-meta">
         <span class="com-autor">{{ nombreAutor }}</span>
-        <span class="com-fecha">{{ comentario.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+        <span class="com-fecha">{{ comentario.createdAt | tiempoTranscurrido }}</span>
         @if (comentario.modificado) {
           <span class="badge-editado">Editado</span>
         }

@@ -40,6 +40,8 @@ export class PublicacionDetallePage implements OnInit {
   textoEditado = '';
 
   get usuarioActual() { return this.auth.getUsuario(); }
+  get usuarioActualId(): string { return this.usuarioActual?._id ?? ''; }
+  get esAdmin(): boolean { return this.usuarioActual?.perfil === 'administrador'; }
   get hayMas(): boolean { return this.comentarios.length < this.totalComentarios; }
 
   ngOnInit(): void {
@@ -89,6 +91,15 @@ export class PublicacionDetallePage implements OnInit {
         },
         error: () => { this.enviando = false; },
       });
+  }
+
+  // Baja lógica de la publicación (autor o admin). Al borrarla volvemos al listado.
+  eliminarPublicacion(pub: Publicacion): void {
+    if (!this.usuarioActualId) return;
+    if (!confirm('¿Seguro que querés dar de baja esta publicación?')) return;
+    this.pubService.eliminar(pub._id, this.usuarioActualId).subscribe({
+      next: () => this.router.navigate(['/publicaciones']),
+    });
   }
 
   iniciarEdicion(comentario: Comentario): void {
